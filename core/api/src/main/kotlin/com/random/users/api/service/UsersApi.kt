@@ -10,12 +10,11 @@ interface UsersApi {
     @GET
     fun getUsers(
         @Query("page") page: Int,
-        @Query("results") results: Int = PAGE_SIZE,
+        @Query("results") results: Int,
         @Query("seed") seed: String,
     ): Either<CallError, RandomUserResponse>
 
     companion object {
-        const val PAGE_SIZE = 10
         const val BASE_URL = "http://api.randomuser.me/"
     }
 }
