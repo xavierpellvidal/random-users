@@ -2,6 +2,7 @@ package com.random.users.api.service
 
 import arrow.core.Either
 import arrow.retrofit.adapter.either.networkhandling.CallError
+import com.random.users.api.model.RandomUserResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,7 +12,7 @@ interface UsersApi {
         @Query("page") page: Int,
         @Query("results") results: Int = PAGE_SIZE,
         @Query("seed") seed: String,
-    ): Either<CallError, Unit>
+    ): Either<CallError, RandomUserResponse>
 
     companion object {
         const val PAGE_SIZE = 10
