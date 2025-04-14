@@ -53,5 +53,5 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":presentation:feature"))
+    implementation(project(":presentation:users"))
 }
