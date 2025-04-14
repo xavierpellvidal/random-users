@@ -50,6 +50,7 @@ dependencies {
     ksp(libs.com.google.dagger.hilt.compiler)
 
     implementation(project(":core:api"))
+    implementation(project(":core:preferences"))
     implementation(project(":core:presentation"))
     implementation(project(":data"))
     implementation(project(":domain"))
