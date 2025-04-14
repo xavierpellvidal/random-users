@@ -18,7 +18,7 @@ class PreferencesManager
 
         fun getString(
             key: String,
-            defaultValue: String,
+            defaultValue: String? = null,
         ): String? = sharedPreferences.getString(key, defaultValue)
 
         companion object {
