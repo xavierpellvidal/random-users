@@ -34,8 +34,10 @@ android {
 
 dependencies {
     implementation(libs.bundles.layer.data)
+    implementation(libs.room.ktx)
 
     ksp(libs.com.google.dagger.hilt.compiler)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.bundles.test.unit)
 }
