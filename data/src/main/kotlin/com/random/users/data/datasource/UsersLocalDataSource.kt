@@ -1,10 +1,11 @@
 package com.random.users.data.datasource
 
 import arrow.core.Either
+import com.random.users.database.model.DeletedUserEntity
 import com.random.users.domain.models.UserErrors
 
 interface UsersLocalDataSource {
-    fun getSeed(): Either<UserErrors, String?>
+    suspend fun getDeletedUsers(): Either<UserErrors, List<DeletedUserEntity>>
 
-    fun saveSeed(seed: String)
+    suspend fun deleteUser(user: DeletedUserEntity): Either<UserErrors, Unit>
 }

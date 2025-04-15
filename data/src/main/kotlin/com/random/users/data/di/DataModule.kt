@@ -1,10 +1,13 @@
 package com.random.users.data.di
 
 import com.random.users.api.service.UsersApi
-import com.random.users.data.datasource.UserPreferencesDataSource
+import com.random.users.data.datasource.SeedLocalDataSource
+import com.random.users.data.datasource.SeedPreferencesDataSource
 import com.random.users.data.datasource.UsersApiDataSource
+import com.random.users.data.datasource.UsersDatabaseDataSource
 import com.random.users.data.datasource.UsersLocalDataSource
 import com.random.users.data.datasource.UsersRemoteDataSource
+import com.random.users.database.dao.UserDao
 import com.random.users.preferences.manager.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -21,6 +24,10 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideUsersLocalDataSource(preferencesManager: PreferencesManager): UsersLocalDataSource =
-        UserPreferencesDataSource(preferencesManager)
+    fun provideUsersLocalDataSource(userDao: UserDao): UsersLocalDataSource = UsersDatabaseDataSource(userDao)
+
+    @Provides
+    @Singleton
+    fun provideSeedLocalDataSource(preferencesManager: PreferencesManager): SeedLocalDataSource =
+        SeedPreferencesDataSource(preferencesManager)
 }

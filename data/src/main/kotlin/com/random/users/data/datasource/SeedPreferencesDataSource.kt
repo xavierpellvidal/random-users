@@ -5,12 +5,12 @@ import com.random.users.domain.models.UserErrors
 import com.random.users.preferences.manager.PreferencesManager
 import javax.inject.Inject
 
-internal class UserPreferencesDataSource
+internal class SeedPreferencesDataSource
     @Inject
     constructor(
         private val preferencesManager: PreferencesManager,
-    ) : UsersLocalDataSource {
-        override fun getSeed(): Either<UserErrors, String?> =
+    ) : SeedLocalDataSource {
+        override fun getSeed() =
             Either
                 .catch {
                     preferencesManager.getString(SEED_KEY)
