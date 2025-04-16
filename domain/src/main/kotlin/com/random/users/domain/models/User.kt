@@ -7,26 +7,26 @@ data class User(
     val email: String,
     val phone: String,
     val gender: String,
-    val picture: UserPicture
+    val picture: UserPicture,
 )
 
 data class UserName(
     val first: String,
-    val last: String
+    val last: String,
 )
 
 data class UserLocation(
     val street: UserStreet,
     val city: String,
-    val state: String
+    val state: String,
 )
 
 data class UserStreet(
     val number: Int,
-    val name: String
+    val name: String,
 )
 
 data class UserPicture(
     val medium: String,
-    val thumbnail: String
+    val thumbnail: String,
 )
