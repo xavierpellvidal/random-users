@@ -8,6 +8,6 @@ interface UsersRemoteDataSource {
     suspend fun getUsers(
         page: Int,
         results: Int,
-        seed: String,
+        seed: String?,
     ): Either<UsersErrors, RandomUserResponse>
 }

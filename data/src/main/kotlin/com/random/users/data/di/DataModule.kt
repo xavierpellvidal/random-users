@@ -7,7 +7,9 @@ import com.random.users.data.datasource.UsersApiDataSource
 import com.random.users.data.datasource.UsersDatabaseDataSource
 import com.random.users.data.datasource.UsersLocalDataSource
 import com.random.users.data.datasource.UsersRemoteDataSource
+import com.random.users.data.repository.UsersRepositoryImpl
 import com.random.users.database.dao.UserDao
+import com.random.users.domain.repository.UsersRepository
 import com.random.users.preferences.manager.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -30,4 +32,16 @@ object DataModule {
     @Singleton
     fun provideSeedLocalDataSource(preferencesManager: PreferencesManager): SeedLocalDataSource =
         SeedPreferencesDataSource(preferencesManager)
+
+    @Provides
+    fun provideUsersRepository(
+        usersLocalDataSource: UsersLocalDataSource,
+        usersRemoteDataSource: UsersRemoteDataSource,
+        seedLocalDataSource: SeedLocalDataSource,
+    ): UsersRepository =
+        UsersRepositoryImpl(
+            usersLocalDataSource = usersLocalDataSource,
+            usersRemoteDataSource = usersRemoteDataSource,
+            seedLocalDataSource = seedLocalDataSource,
+        )
 }

@@ -16,7 +16,7 @@ internal class UsersApiDataSource
         override suspend fun getUsers(
             page: Int,
             results: Int,
-            seed: String,
+            seed: String?,
         ) = withContext(dispatcher) {
             usersApi
                 .getUsers(

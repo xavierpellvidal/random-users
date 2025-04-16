@@ -11,7 +11,7 @@ interface UsersApi {
     fun getUsers(
         @Query("page") page: Int,
         @Query("results") results: Int,
-        @Query("seed") seed: String,
+        @Query("seed") seed: String? = null,
     ): Either<CallError, RandomUserResponse>
 
     companion object {
