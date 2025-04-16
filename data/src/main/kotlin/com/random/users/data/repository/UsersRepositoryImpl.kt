@@ -9,7 +9,6 @@ import com.random.users.data.mapper.UserMapper.toDomain
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.repository.UsersRepository
 import javax.inject.Inject
-import kotlin.getOrElse
 
 internal class UsersRepositoryImpl
     @Inject
@@ -42,11 +41,7 @@ internal class UsersRepositoryImpl
 
         override suspend fun deleteUser(uuid: String): Either<UsersErrors, Unit> = usersLocalDataSource.deleteUser(uuid)
 
-        override suspend fun getSeed(): Either<UsersErrors, String?> {
-            TODO("Not yet implemented")
-        }
+        override suspend fun getSeed(): Either<UsersErrors, String?> = seedLocalDataSource.getSeed()
 
-        override suspend fun saveSeed(seed: String): Either<UsersErrors, Unit> {
-            TODO("Not yet implemented")
-        }
+        override suspend fun saveSeed(seed: String): Either<UsersErrors, Unit> = seedLocalDataSource.saveSeed(seed)
     }
