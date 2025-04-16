@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "${AppVersions.APPLICATION_ID}.data"
+    namespace = "${AppVersions.APPLICATION_ID}.core.database"
     compileSdk = AppVersions.COMPILE_SDK
 
     defaultConfig {
@@ -34,14 +34,10 @@ android {
 
 dependencies {
     implementation(libs.bundles.layer.data)
-    implementation(libs.arrow.core.retrofit)
+    implementation(libs.room.ktx)
 
     ksp(libs.com.google.dagger.hilt.compiler)
-
-    implementation(project(":domain"))
-    implementation(project(":core:api"))
-    implementation(project(":core:database"))
-    implementation(project(":core:preferences"))
+    ksp(libs.room.compiler)
 
     testImplementation(libs.bundles.test.unit)
 }

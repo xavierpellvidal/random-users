@@ -18,6 +18,7 @@ mockitoKotlin = "5.3.1"
 ioMockk = "1.13.17"
 turbine = "1.1.0"
 coil = "3.1.0"
+room = "2.7.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -46,6 +47,8 @@ io-mockk = { module = "io.mockk:mockk", version.ref = "ioMockk" }
 kotlin-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
