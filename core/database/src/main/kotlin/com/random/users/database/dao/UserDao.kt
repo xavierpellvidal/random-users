@@ -11,6 +11,6 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDeletedUser(user: DeletedUserEntity)
 
-    @Query("SELECT * FROM deleteduserentity")
+    @Query("SELECT * FROM deleted_users")
     suspend fun getAllDeletedUsers(): List<DeletedUserEntity>
 }

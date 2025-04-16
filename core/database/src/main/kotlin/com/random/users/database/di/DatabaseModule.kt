@@ -29,5 +29,5 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideUserDao(db: RandomUsersDatabase): UserDao = db.movieDao()
+    fun provideUserDao(db: RandomUsersDatabase): UserDao = db.userDao()
 }
