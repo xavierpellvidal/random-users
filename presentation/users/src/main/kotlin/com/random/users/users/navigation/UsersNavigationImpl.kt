@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.random.user.presentation.navigation.BaseNavRoutes
 import com.random.user.presentation.navigation.FeatureNavigation
-import com.random.users.users.screen.UsersMainScreen
+import com.random.users.users.screen.UsersScreen
 import javax.inject.Inject
 
 class UsersNavigationImpl
@@ -20,7 +20,7 @@ class UsersNavigationImpl
                 startDestination = UsersRoute.Home,
             ) {
                 composable<UsersRoute.Home> {
-                    UsersMainScreen()
+                    UsersScreen()
                 }
             }
         }

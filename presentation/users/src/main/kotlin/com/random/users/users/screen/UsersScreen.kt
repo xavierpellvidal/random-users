@@ -5,4 +5,4 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.random.users.users.viewmodel.UsersViewModel
 
 @Composable
-fun UsersMainScreen(viewModel: UsersViewModel = hiltViewModel()) {}
+fun UsersScreen(viewModel: UsersViewModel = hiltViewModel()) {}
