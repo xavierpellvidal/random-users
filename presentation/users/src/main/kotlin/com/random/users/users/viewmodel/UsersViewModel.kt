@@ -41,7 +41,7 @@ class UsersViewModel
                 }
 
                 is UsersEvent.OnFilterUsers -> {
-                    // TODO filter users
+                    filterUsers(event.filterText)
                 }
             }
         }
@@ -98,12 +98,38 @@ class UsersViewModel
                 )
             }
         }
-    }
 
-private fun List<UserUiState>.updateUser(
-    uuid: String,
-    updateUser: (UserUiState) -> UserUiState,
-): List<UserUiState> =
-    map { user ->
-        if (user.user.uuid == uuid) updateUser(user) else user
+        private fun filterUsers(filterText: String) {
+            _uiState.update { state ->
+                state.copy(
+                    users = state.users.applyTextFilter(filterText),
+                    contentState =
+                        if (filterText.isBlank()) {
+                            UsersScreenUiState.ContentState.Idle
+                        } else {
+                            UsersScreenUiState.ContentState.Filtered
+                        },
+                )
+            }
+        }
+
+        private fun List<UserUiState>.applyTextFilter(filter: String): List<UserUiState> =
+            if (filter.isBlank()) {
+                this
+            } else {
+                this.filter { userUiState ->
+                    val user = userUiState.user
+                    user.name.first.contains(filter, ignoreCase = true) ||
+                        user.name.last.contains(filter, ignoreCase = true) ||
+                        user.email.contains(filter, ignoreCase = true)
+                }
+            }
+
+        private fun List<UserUiState>.updateUser(
+            uuid: String,
+            updateUser: (UserUiState) -> UserUiState,
+        ): List<UserUiState> =
+            map { user ->
+                if (user.user.uuid == uuid) updateUser(user) else user
+            }
     }
