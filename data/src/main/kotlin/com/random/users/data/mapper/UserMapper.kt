@@ -1,6 +1,7 @@
 package com.random.users.data.mapper
 
 import com.random.users.api.model.UserDto
+import com.random.users.database.model.DeletedUserEntity
 import com.random.users.domain.models.User
 import com.random.users.domain.models.UserLocation
 import com.random.users.domain.models.UserName
