@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "RandomUser"
 include(":app")
 include(":core:api")
+include(":core:database")
 include(":core:preferences")
 include(":core:presentation")
 include(":data")

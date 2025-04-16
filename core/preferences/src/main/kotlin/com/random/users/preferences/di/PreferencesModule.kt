@@ -2,6 +2,7 @@ package com.random.users.preferences.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.random.users.preferences.manager.PreferencesManager
 import com.random.users.preferences.manager.PreferencesManager.Companion.PREFERENCES_NAME
 import dagger.Module
 import dagger.Provides
@@ -21,9 +22,6 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun providePreferencesManager(
-        sharedPreferences: SharedPreferences,
-    ): com.random.users.preferences.manager.PreferencesManager =
-        com.random.users.preferences.manager
-            .PreferencesManager(sharedPreferences)
+    fun providePreferencesManager(sharedPreferences: SharedPreferences): PreferencesManager =
+        PreferencesManager(sharedPreferences)
 }
