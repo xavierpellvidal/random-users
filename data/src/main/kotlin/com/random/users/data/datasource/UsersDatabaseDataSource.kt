@@ -23,11 +23,11 @@ internal class UsersDatabaseDataSource
                     }.mapLeft { UsersErrors.UserError }
             }
 
-        override suspend fun deleteUser(user: String) =
+        override suspend fun deleteUser(uuid: String) =
             withContext(dispatcher) {
                 Either
                     .catch {
-                        userDao.insertDeletedUser(DeletedUserEntity(uuid = user))
+                        userDao.insertDeletedUser(DeletedUserEntity(uuid = uuid))
                     }.mapLeft { UsersErrors.UserError }
             }
     }
