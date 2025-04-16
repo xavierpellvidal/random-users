@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.random.user.navigation.BaseProjectApplication
-import com.random.user.presentation.ui.theme.BaseProjectTheme
+import com.random.user.presentation.ui.theme.RandomUsersTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BaseProjectTheme {
+            RandomUsersTheme {
                 BaseProjectApplication()
             }
         }

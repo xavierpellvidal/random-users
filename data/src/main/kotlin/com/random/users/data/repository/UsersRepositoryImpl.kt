@@ -34,6 +34,9 @@ internal class UsersRepositoryImpl
                         seedLocalDataSource.saveSeed(newSeed)
                     }
                     users.results.toDomain()
+                }.mapLeft {
+                    val r = 0
+                    UsersErrors.UserError
                 }
         }
 

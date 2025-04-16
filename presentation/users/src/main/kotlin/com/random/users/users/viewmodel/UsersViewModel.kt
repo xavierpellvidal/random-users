@@ -30,6 +30,10 @@ class UsersViewModel
 
         private var currentPage: Int = 0
 
+        init {
+            handleEvent(UsersEvent.OnLoadUsers)
+        }
+
         fun handleEvent(event: UsersEvent) {
             when (event) {
                 is UsersEvent.OnLoadUsers -> {
