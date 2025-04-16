@@ -12,9 +12,7 @@ class PreferencesManager
         fun saveString(
             key: String,
             value: String,
-        ) {
-            sharedPreferences.edit { putString(key, value) }
-        }
+        ) = sharedPreferences.edit { putString(key, value) }
 
         fun getString(
             key: String,

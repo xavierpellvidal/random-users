@@ -1,10 +1,10 @@
 package com.random.users.data.datasource
 
 import arrow.core.Either
-import com.random.users.domain.models.UserErrors
+import com.random.users.domain.models.UsersErrors
 
 interface SeedLocalDataSource {
-    fun getSeed(): Either<UserErrors, String?>
+    suspend fun getSeed(): Either<UsersErrors, String?>
 
-    fun saveSeed(seed: String)
+    suspend fun saveSeed(seed: String): Either<UsersErrors, Unit>
 }
