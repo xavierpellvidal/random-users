@@ -8,12 +8,9 @@ interface UsersRepository {
     suspend fun getUsers(
         page: Int,
         results: Int,
-        seed: String?,
     ): Either<UsersErrors, List<User>>
 
+    suspend fun getDeletedUsers(): Either<UsersErrors, List<String>>
+
     suspend fun deleteUser(uuid: String): Either<UsersErrors, Unit>
-
-    suspend fun getSeed(): Either<UsersErrors, String?>
-
-    suspend fun saveSeed(seed: String): Either<UsersErrors, Unit>
 }
