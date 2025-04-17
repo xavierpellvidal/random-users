@@ -52,6 +52,9 @@ class UsersViewModel
         }
 
         private fun loadUsers() {
+            _uiState.update { state ->
+                state.copy(contentState = UsersScreenUiState.ContentState.Loading)
+            }
             viewModelScope.launch {
                 getUserListUseCase(page = currentPage).fold(
                     ifLeft = {
@@ -62,7 +65,11 @@ class UsersViewModel
                         userList = userList + newUsers.toUiState()
                         _uiState.update { it.copy(users = userList) }
                     },
-                )
+                ).also {
+                    _uiState.update { state ->
+                        state.copy(contentState = UsersScreenUiState.ContentState.Idle)
+                    }
+                }
             }
         }
 
