@@ -40,6 +40,8 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":core:api"))
+    implementation(project(":core:database"))
+    implementation(project(":core:preferences"))
 
     testImplementation(libs.bundles.test.unit)
 }

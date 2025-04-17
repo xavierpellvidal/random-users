@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -39,6 +41,11 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
 }
 
 dependencies {
@@ -50,8 +57,9 @@ dependencies {
     ksp(libs.com.google.dagger.hilt.compiler)
 
     implementation(project(":core:api"))
+    implementation(project(":core:preferences"))
     implementation(project(":core:presentation"))
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":presentation:feature"))
+    implementation(project(":presentation:users"))
 }
