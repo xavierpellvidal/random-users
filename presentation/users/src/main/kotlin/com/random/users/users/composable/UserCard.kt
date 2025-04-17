@@ -37,6 +37,11 @@ import com.random.users.domain.models.UserName
 import com.random.users.domain.models.UserPicture
 import com.random.users.domain.models.UserStreet
 import com.random.users.users.contract.UserUiState
+import com.random.users.users.model.UserLocationUiModel
+import com.random.users.users.model.UserNameUiModel
+import com.random.users.users.model.UserPictureUiModel
+import com.random.users.users.model.UserStreetUiModel
+import com.random.users.users.model.UserUiModel
 
 @Composable
 fun UserCard(
@@ -124,17 +129,17 @@ fun UserCardPreview() {
             user =
                 UserUiState(
                     user =
-                        User(
+                        UserUiModel(
                             uuid = "550e8400-e29b-41d4-a716-446655440000",
                             name =
-                                UserName(
+                                UserNameUiModel(
                                     first = "María",
                                     last = "García",
                                 ),
                             location =
-                                UserLocation(
+                                UserLocationUiModel(
                                     street =
-                                        UserStreet(
+                                        UserStreetUiModel(
                                             number = 123,
                                             name = "Calle Mayor",
                                         ),
@@ -145,7 +150,7 @@ fun UserCardPreview() {
                             phone = "+34 612 345 678",
                             gender = "female",
                             picture =
-                                UserPicture(
+                                UserPictureUiModel(
                                     medium = "https://randomuser.me/api/portraits/women/42.jpg",
                                     thumbnail = "https://randomuser.me/api/portraits/thumb/women/42.jpg",
                                 ),

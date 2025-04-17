@@ -1,7 +1,9 @@
 package com.random.users.users.contract
 
-import com.random.users.domain.models.User
+import androidx.compose.runtime.Immutable
+import com.random.users.users.model.UserUiModel
 
+@Immutable
 data class UsersScreenUiState(
     val users: List<UserUiState> = emptyList(),
     val filterText: String = "",
@@ -16,8 +18,9 @@ data class UsersScreenUiState(
     }
 }
 
+@Immutable
 data class UserUiState(
-    val user: User,
+    val user: UserUiModel,
     val userState: ContentState = ContentState.Idle,
 ) {
     sealed interface ContentState {

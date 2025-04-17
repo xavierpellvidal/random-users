@@ -1,5 +1,6 @@
 package com.random.users.users.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,13 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.random.user.presentation.ui.theme.RandomUsersTheme
-import com.random.users.domain.models.User
-import com.random.users.domain.models.UserLocation
-import com.random.users.domain.models.UserName
-import com.random.users.domain.models.UserPicture
-import com.random.users.domain.models.UserStreet
 import com.random.users.users.contract.UserUiState
 import com.random.users.users.contract.UsersScreenUiState
+import com.random.users.users.model.UserLocationUiModel
+import com.random.users.users.model.UserNameUiModel
+import com.random.users.users.model.UserPictureUiModel
+import com.random.users.users.model.UserStreetUiModel
+import com.random.users.users.model.UserUiModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 
@@ -38,6 +39,7 @@ fun UserList(
     state: UsersScreenUiState,
     onDeleteUser: (String) -> Unit,
     onLoadUsers: () -> Unit,
+    onUserClick: (UserUiModel) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -79,7 +81,8 @@ fun UserList(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .animateItem(),
+                        .animateItem()
+                        .clickable { onUserClick(user.user) },
                 user = user,
                 onDeleteUser = { uuid -> onDeleteUser(uuid) },
             )
@@ -121,17 +124,17 @@ fun UserListPreview() {
                         listOf(
                             UserUiState(
                                 user =
-                                    User(
+                                    UserUiModel(
                                         uuid = "550e8400-e29b-41d4-a716-446655440000",
                                         name =
-                                            UserName(
+                                            UserNameUiModel(
                                                 first = "María",
                                                 last = "García",
                                             ),
                                         location =
-                                            UserLocation(
+                                            UserLocationUiModel(
                                                 street =
-                                                    UserStreet(
+                                                    UserStreetUiModel(
                                                         number = 123,
                                                         name = "Calle Mayor",
                                                     ),
@@ -142,7 +145,7 @@ fun UserListPreview() {
                                         phone = "+34 612 345 678",
                                         gender = "female",
                                         picture =
-                                            UserPicture(
+                                            UserPictureUiModel(
                                                 medium = "https://randomuser.me/api/portraits/women/42.jpg",
                                                 thumbnail = "https://randomuser.me/api/portraits/thumb/women/42.jpg",
                                             ),
@@ -151,17 +154,17 @@ fun UserListPreview() {
                             ),
                             UserUiState(
                                 user =
-                                    User(
+                                    UserUiModel(
                                         uuid = "550e8400-e29b-41d4-a716-446655440001",
                                         name =
-                                            UserName(
+                                            UserNameUiModel(
                                                 first = "Alejandro",
                                                 last = "Rodríguez",
                                             ),
                                         location =
-                                            UserLocation(
+                                            UserLocationUiModel(
                                                 street =
-                                                    UserStreet(
+                                                    UserStreetUiModel(
                                                         number = 47,
                                                         name = "Avenida Diagonal",
                                                     ),
@@ -172,7 +175,7 @@ fun UserListPreview() {
                                         phone = "+34 633 456 789",
                                         gender = "male",
                                         picture =
-                                            UserPicture(
+                                            UserPictureUiModel(
                                                 medium = "https://randomuser.me/api/portraits/men/29.jpg",
                                                 thumbnail = "https://randomuser.me/api/portraits/thumb/men/29.jpg",
                                             ),
