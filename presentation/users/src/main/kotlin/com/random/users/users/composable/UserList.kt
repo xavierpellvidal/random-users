@@ -103,7 +103,7 @@ fun UserListPreview() {
                                         thumbnail = "https://randomuser.me/api/portraits/thumb/men/29.jpg",
                                     ),
                             ),
-                        userState = UserUiState.ContentState.Idle,
+                        userState = UserUiState.ContentState.Deleting,
                     ),
                 ),
             onDeleteUser = {},

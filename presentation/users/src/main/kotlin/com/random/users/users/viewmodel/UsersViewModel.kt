@@ -29,6 +29,7 @@ class UsersViewModel
         val uiState: StateFlow<UsersScreenUiState> = _uiState
 
         private var currentPage: Int = 0
+        private var userList: List<UserUiState> = emptyList()
 
         init {
             handleEvent(UsersEvent.OnLoadUsers)
@@ -58,46 +59,34 @@ class UsersViewModel
                     },
                     ifRight = { newUsers ->
                         currentPage++
-                        _uiState.update { state ->
-                            state.copy(
-                                users = state.users + newUsers.toUiState(),
-                            )
-                        }
+                        userList = userList + newUsers.toUiState()
+                        _uiState.update { it.copy(users = userList) }
                     },
                 )
             }
         }
 
         private fun deleteUser(uuid: String) {
-            _uiState.update { state ->
-                state.copy(
-                    users =
-                        state.users.updateUser(uuid) { user ->
-                            user.copy(
-                                userState = UserUiState.ContentState.Deleting,
-                            )
-                        },
-                )
-            }
+            userList =
+                userList.updateUser(uuid) { user ->
+                    user.copy(
+                        userState = UserUiState.ContentState.Deleting,
+                    )
+                }
+            _uiState.update { it.copy(users = userList) }
             viewModelScope.launch {
                 deleteUserUseCase(uuid = uuid).fold(
                     ifLeft = {
-                        _uiState.update { state ->
-                            state.copy(
-                                users =
-                                    state.users.updateUser(uuid) { user ->
-                                        user.copy(userState = UserUiState.ContentState.Idle)
-                                    },
-                            )
-                        }
+                        userList =
+                            userList.updateUser(uuid) { user ->
+                                user.copy(userState = UserUiState.ContentState.Idle)
+                            }
+                        _uiState.update { it.copy(users = userList) }
                         // TODO send error deleting movie
                     },
                     ifRight = { _ ->
-                        _uiState.update { state ->
-                            state.copy(
-                                users = state.users.filterNot { it.user.uuid == uuid },
-                            )
-                        }
+                        userList = userList.filterNot { it.user.uuid == uuid }
+                        _uiState.update { it.copy(users = userList) }
                     },
                 )
             }
@@ -106,7 +95,7 @@ class UsersViewModel
         private fun filterUsers(filterText: String) {
             _uiState.update { state ->
                 state.copy(
-                    users = state.users.applyTextFilter(filterText),
+                    users = userList.applyTextFilter(filterText),
                     contentState =
                         if (filterText.isBlank()) {
                             UsersScreenUiState.ContentState.Idle
