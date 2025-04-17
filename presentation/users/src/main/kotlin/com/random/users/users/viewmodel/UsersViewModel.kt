@@ -56,20 +56,21 @@ class UsersViewModel
                 state.copy(contentState = UsersScreenUiState.ContentState.Loading)
             }
             viewModelScope.launch {
-                getUserListUseCase(page = currentPage).fold(
-                    ifLeft = {
-                        // TODO send error loading users
-                    },
-                    ifRight = { newUsers ->
-                        currentPage++
-                        userList = userList + newUsers.toUiState()
-                        _uiState.update { it.copy(users = userList) }
-                    },
-                ).also {
-                    _uiState.update { state ->
-                        state.copy(contentState = UsersScreenUiState.ContentState.Idle)
+                getUserListUseCase(page = currentPage)
+                    .fold(
+                        ifLeft = {
+                            // TODO send error loading users
+                        },
+                        ifRight = { newUsers ->
+                            currentPage++
+                            userList = (userList + newUsers.toUiState()).distinctBy { it.user.uuid }
+                            _uiState.update { it.copy(users = userList) }
+                        },
+                    ).also {
+                        _uiState.update { state ->
+                            state.copy(contentState = UsersScreenUiState.ContentState.Idle)
+                        }
                     }
-                }
             }
         }
 
@@ -82,20 +83,21 @@ class UsersViewModel
                 }
             _uiState.update { it.copy(users = userList) }
             viewModelScope.launch {
-                deleteUserUseCase(uuid = uuid).fold(
-                    ifLeft = {
-                        userList =
-                            userList.updateUser(uuid) { user ->
-                                user.copy(userState = UserUiState.ContentState.Idle)
-                            }
+                deleteUserUseCase(uuid = uuid)
+                    .fold(
+                        ifLeft = {
+                            userList =
+                                userList.updateUser(uuid) { user ->
+                                    user.copy(userState = UserUiState.ContentState.Idle)
+                                }
+                            // TODO send error deleting movie
+                        },
+                        ifRight = { _ ->
+                            userList = userList.filterNot { it.user.uuid == uuid }
+                        },
+                    ).also {
                         _uiState.update { it.copy(users = userList) }
-                        // TODO send error deleting movie
-                    },
-                    ifRight = { _ ->
-                        userList = userList.filterNot { it.user.uuid == uuid }
-                        _uiState.update { it.copy(users = userList) }
-                    },
-                )
+                    }
             }
         }
 

@@ -55,8 +55,7 @@ internal fun UsersContent(
                 onValueChange = { onFilterUsers(it) },
             )
             UserList(
-                loading = state.contentState is UsersScreenUiState.ContentState.Loading,
-                users = state.users,
+                state = state,
                 onDeleteUser = { uuid -> onDeleteUser(uuid) },
                 onLoadUsers = { onLoadUsers() },
             )
