@@ -33,8 +33,8 @@ object UserMapper {
             gender = gender,
             picture =
                 UserPicture(
-                    medium = picture.medium,
-                    thumbnail = picture.thumbnail,
+                    medium = picture.large,
+                    thumbnail = picture.medium,
                 ),
         )
 }

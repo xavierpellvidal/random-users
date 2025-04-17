@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "${AppVersions.APPLICATION_ID}.feature"
+    namespace = "${AppVersions.APPLICATION_ID}.users"
     compileSdk = AppVersions.COMPILE_SDK
 
     defaultConfig {
@@ -43,6 +43,8 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.layer.presentation)
     implementation(libs.coil.compose)
+    implementation(libs.coil.okhttp)
+    implementation(libs.androidx.ui.tooling)
 
     ksp(libs.com.google.dagger.hilt.compiler)
 

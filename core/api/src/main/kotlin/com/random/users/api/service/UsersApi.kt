@@ -7,14 +7,14 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface UsersApi {
-    @GET
-    fun getUsers(
+    @GET("/")
+    suspend fun getUsers(
         @Query("page") page: Int,
         @Query("results") results: Int,
         @Query("seed") seed: String? = null,
     ): Either<CallError, RandomUserResponse>
 
     companion object {
-        const val BASE_URL = "http://api.randomuser.me/"
+        const val BASE_URL = "https://api.randomuser.me/"
     }
 }

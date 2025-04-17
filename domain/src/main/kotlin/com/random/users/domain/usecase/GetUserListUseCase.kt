@@ -32,6 +32,6 @@ class GetUserListUseCase
                 }
 
         companion object {
-            const val DEFAULT_RESULTS = 10
+            const val DEFAULT_RESULTS = 15
         }
     }
