@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -35,6 +36,11 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -51,6 +57,7 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":domain"))
 
+    implementation(project(":core:test"))
     testImplementation(project(":core:test"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)

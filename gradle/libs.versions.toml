@@ -21,6 +21,9 @@ coil = "3.1.0"
 room = "2.7.0"
 uiTooling = "1.7.8"
 composeJunit = "1.7.8"
+coreTesting = "2.2.0"
+robolectric = "4.14.1"
+testCorutines = "1.10.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -55,6 +58,11 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeJunit" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+test-corutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "testCorutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "testCorutines" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -64,6 +72,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 android-library = { id = "com.android.library", version.ref = "agp" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 
 [bundles]
 layer-presentation = [
@@ -92,10 +101,16 @@ test-unit = [
   "io-mockk",
   "kotlin-mockito-kotlin",
   "app-cash-turbine",
+  "test-corutines",
+  "kotlinx-coroutines-core",
 ]
 test-compose = [
   "roborazzi",
   "roborazzi-compose",
   "roborazzi-rule",
-  "test-junit4"
+  "test-junit4",
+  "core-testing",
+  "robolectric",
+  "hilt-testing",
+  "androidx-activity-compose"
 ]

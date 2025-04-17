@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.com.google.dagger.hilt.android)
 }
 
 android {
@@ -31,5 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.bundles.layer.data)
+    ksp(libs.com.google.dagger.hilt.compiler)
     implementation(libs.bundles.test.compose)
 }
