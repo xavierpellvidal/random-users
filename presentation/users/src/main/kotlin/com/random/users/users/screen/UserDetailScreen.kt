@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
@@ -23,7 +25,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -83,7 +84,8 @@ internal fun UserDetailContent(
         modifier =
             modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
     ) {
         ProfileCard(user = user)
         ContactInformationCard(email = user.email, phone = user.phone)
@@ -228,32 +230,27 @@ fun AddressCard(location: UserLocationUiModel) {
 @Composable
 fun UserDetailScreenPreview() {
     RandomUsersTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background,
-        ) {
-            UserDetailScreen(
-                navController = rememberNavController(),
-                user =
-                    UserUiModel(
-                        uuid = "550e8400-e29b-41d4-a716-446655440000",
-                        name = UserNameUiModel(first = "John", last = "Doe"),
-                        location =
-                            UserLocationUiModel(
-                                street = UserStreetUiModel(number = 123, name = "Main Street"),
-                                city = "Springfield",
-                                state = "Illinois",
-                            ),
-                        email = "john.doe@example.com",
-                        phone = "+1 555-123-4567",
-                        gender = "male",
-                        picture =
-                            UserPictureUiModel(
-                                medium = "https://randomuser.me/api/portraits/men/1.jpg",
-                                thumbnail = "https://randomuser.me/api/portraits/thumb/men/1.jpg",
-                            ),
-                    ),
-            )
-        }
+        UserDetailScreen(
+            navController = rememberNavController(),
+            user =
+                UserUiModel(
+                    uuid = "550e8400-e29b-41d4-a716-446655440000",
+                    name = UserNameUiModel(first = "John", last = "Doe"),
+                    location =
+                        UserLocationUiModel(
+                            street = UserStreetUiModel(number = 123, name = "Main Street"),
+                            city = "Springfield",
+                            state = "Illinois",
+                        ),
+                    email = "john.doe@example.com",
+                    phone = "+1 555-123-4567",
+                    gender = "male",
+                    picture =
+                        UserPictureUiModel(
+                            medium = "https://randomuser.me/api/portraits/men/1.jpg",
+                            thumbnail = "https://randomuser.me/api/portraits/thumb/men/1.jpg",
+                        ),
+                ),
+        )
     }
 }
