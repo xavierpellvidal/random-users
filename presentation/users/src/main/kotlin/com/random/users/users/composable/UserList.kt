@@ -55,6 +55,15 @@ fun UserList(
             .collect { onLoadUsers() }
     }
 
+    LaunchedEffect(
+        state.contentState,
+        state.filterText,
+    ) {
+        if (state.contentState is UsersScreenUiState.ContentState.Filtered) {
+            listState.animateScrollToItem(0)
+        }
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
         state = listState,

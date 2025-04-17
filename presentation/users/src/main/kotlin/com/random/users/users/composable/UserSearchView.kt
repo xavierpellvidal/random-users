@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.random.user.presentation.ui.theme.RandomUsersTheme
@@ -21,7 +21,7 @@ fun UserSearchView(
     search: String = "",
     onValueChange: (String) -> Unit,
 ) {
-    val searchState = remember { mutableStateOf(search) }
+    val searchState = rememberSaveable { mutableStateOf(search) }
 
     TextField(
         modifier = modifier.fillMaxWidth(),

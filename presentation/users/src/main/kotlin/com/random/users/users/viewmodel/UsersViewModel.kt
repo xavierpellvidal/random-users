@@ -31,10 +31,6 @@ class UsersViewModel
         private var currentPage: Int = 0
         private var userList: List<UserUiState> = emptyList()
 
-        init {
-            handleEvent(UsersEvent.OnLoadUsers)
-        }
-
         fun handleEvent(event: UsersEvent) {
             when (event) {
                 is UsersEvent.OnLoadUsers -> {
