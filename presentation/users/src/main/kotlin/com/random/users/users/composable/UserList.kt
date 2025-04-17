@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -28,15 +29,18 @@ import com.random.users.domain.models.UserPicture
 import com.random.users.domain.models.UserStreet
 import com.random.users.users.contract.UserUiState
 import com.random.users.users.contract.UsersScreenUiState
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 
 @Composable
 fun UserList(
     modifier: Modifier = Modifier,
-    listState: LazyListState = rememberLazyListState(),
     state: UsersScreenUiState,
     onDeleteUser: (String) -> Unit,
     onLoadUsers: () -> Unit,
 ) {
+    val listState = rememberLazyListState()
+
     val reachedBottom: Boolean by remember {
         derivedStateOf { listState.reachedBottom() }
     }
@@ -45,9 +49,10 @@ fun UserList(
         reachedBottom,
         state.contentState,
     ) {
-        if (reachedBottom && state.contentState is UsersScreenUiState.ContentState.Idle) {
-            onLoadUsers()
-        }
+        snapshotFlow { reachedBottom }
+            .distinctUntilChanged()
+            .filter { it && state.contentState is UsersScreenUiState.ContentState.Idle }
+            .collect { onLoadUsers() }
     }
 
     LazyColumn(
@@ -90,7 +95,7 @@ private fun LoadingItem(modifier: Modifier = Modifier) {
     }
 }
 
-internal fun LazyListState.reachedBottom(buffer: Int = 1): Boolean {
+private fun LazyListState.reachedBottom(buffer: Int = 1): Boolean {
     if (layoutInfo.visibleItemsInfo.isEmpty()) return true
     val lastVisibleItem = layoutInfo.visibleItemsInfo.last()
     return lastVisibleItem.index >= layoutInfo.totalItemsCount - buffer - 1

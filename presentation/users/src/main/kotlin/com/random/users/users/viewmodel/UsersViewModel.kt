@@ -64,7 +64,7 @@ class UsersViewModel
                         ifRight = { newUsers ->
                             currentPage++
                             userList = (userList + newUsers.toUiState()).distinctBy { it.user.uuid }
-                            _uiState.update { it.copy(users = userList) }
+                            applyUserListToState()
                         },
                     ).also {
                         _uiState.update { state ->
@@ -77,11 +77,9 @@ class UsersViewModel
         private fun deleteUser(uuid: String) {
             userList =
                 userList.updateUser(uuid) { user ->
-                    user.copy(
-                        userState = UserUiState.ContentState.Deleting,
-                    )
+                    user.copy(userState = UserUiState.ContentState.Deleting)
                 }
-            _uiState.update { it.copy(users = userList) }
+            applyUserListToState()
             viewModelScope.launch {
                 deleteUserUseCase(uuid = uuid)
                     .fold(
@@ -96,7 +94,7 @@ class UsersViewModel
                             userList = userList.filterNot { it.user.uuid == uuid }
                         },
                     ).also {
-                        _uiState.update { it.copy(users = userList) }
+                        applyUserListToState()
                     }
             }
         }
@@ -105,6 +103,7 @@ class UsersViewModel
             _uiState.update { state ->
                 state.copy(
                     users = userList.applyTextFilter(filterText),
+                    filterText = filterText,
                     contentState =
                         if (filterText.isBlank()) {
                             UsersScreenUiState.ContentState.Idle
@@ -114,6 +113,18 @@ class UsersViewModel
                 )
             }
         }
+
+        private fun applyUserListToState() =
+            _uiState.update { currentState ->
+                currentState.copy(
+                    users =
+                        if (currentState.contentState == UsersScreenUiState.ContentState.Filtered) {
+                            userList.applyTextFilter(currentState.filterText)
+                        } else {
+                            userList
+                        },
+                )
+            }
 
         private fun List<UserUiState>.applyTextFilter(filter: String): List<UserUiState> =
             if (filter.isBlank()) {
