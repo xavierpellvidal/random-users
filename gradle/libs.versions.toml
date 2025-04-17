@@ -27,7 +27,6 @@ testCorutines = "1.10.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -105,7 +104,6 @@ test-unit = [
   "app-cash-turbine",
   "test-corutines",
   "kotlinx-coroutines-core",
-  "junit-api",
   "kotlin-test",
 ]
 test-compose = [

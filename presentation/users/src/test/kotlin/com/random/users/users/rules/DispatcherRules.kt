@@ -7,9 +7,6 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.jupiter.api.extension.AfterEachCallback
-import org.junit.jupiter.api.extension.BeforeEachCallback
-import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -26,20 +23,5 @@ class MainDispatcherRule(
         super.finished(description)
         Dispatchers.resetMain()
         unmockkAll()
-    }
-}
-
-@ExperimentalCoroutinesApi
-class TestCoroutineExtension :
-    BeforeEachCallback,
-    AfterEachCallback {
-    private val testDispatcher = StandardTestDispatcher()
-
-    override fun beforeEach(context: ExtensionContext?) {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    override fun afterEach(context: ExtensionContext?) {
-        Dispatchers.resetMain()
     }
 }
