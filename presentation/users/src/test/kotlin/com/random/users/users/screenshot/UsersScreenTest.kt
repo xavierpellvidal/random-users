@@ -38,7 +38,10 @@ import org.robolectric.annotation.GraphicsMode
 internal class UsersScreenTest {
     private val getUsersListUseCase: GetUserListUseCase = mockk()
     private val deleteUserUseCase: DeleteUserUseCase = mockk()
-    private lateinit var viewModel: UsersViewModel
+    private val viewModel: UsersViewModel by lazy {
+        UsersViewModel(getUsersListUseCase, deleteUserUseCase)
+    }
+
 
     @get:Rule
     val composeTestRule = createScreenshotTestComposeRule()
@@ -53,7 +56,6 @@ internal class UsersScreenTest {
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        viewModel = UsersViewModel(getUsersListUseCase, deleteUserUseCase)
     }
 
     @After

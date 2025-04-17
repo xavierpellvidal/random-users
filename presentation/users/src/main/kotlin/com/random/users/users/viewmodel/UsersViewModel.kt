@@ -56,17 +56,16 @@ class UsersViewModel
                     .fold(
                         ifLeft = {
                             // TODO send error loading users
+                            _uiState.update { state ->
+                                state.copy(contentState = UsersScreenUiState.ContentState.Idle)
+                            }
                         },
                         ifRight = { newUsers ->
                             currentPage++
                             userList = (userList + newUsers.toUiState()).distinctBy { it.user.uuid }
                             applyUserListToState()
                         },
-                    ).also {
-                        _uiState.update { state ->
-                            state.copy(contentState = UsersScreenUiState.ContentState.Idle)
-                        }
-                    }
+                    )
             }
         }
 
@@ -113,6 +112,7 @@ class UsersViewModel
         private fun applyUserListToState() =
             _uiState.update { currentState ->
                 currentState.copy(
+                    contentState = UsersScreenUiState.ContentState.Idle,
                     users =
                         if (currentState.contentState == UsersScreenUiState.ContentState.Filtered) {
                             userList.applyTextFilter(currentState.filterText)

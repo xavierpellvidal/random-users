@@ -55,7 +55,7 @@ object UsersMother {
             val imageIndex = (index % 98) + 1
 
             create(
-                uuid = UUID.randomUUID().toString(),
+                uuid = index.toString(),
                 firstName = "Name${index + 1}",
                 lastName = "Surname${index + 1}",
                 email = "user${index + 1}@example.com",

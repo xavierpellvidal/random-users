@@ -36,4 +36,5 @@ dependencies {
     implementation(libs.bundles.layer.data)
     ksp(libs.com.google.dagger.hilt.compiler)
     implementation(libs.bundles.test.compose)
+    testImplementation(libs.bundles.test.unit)
 }

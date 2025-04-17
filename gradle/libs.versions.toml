@@ -27,6 +27,7 @@ testCorutines = "1.10.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -63,6 +64,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 test-corutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "testCorutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "testCorutines" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -103,6 +105,8 @@ test-unit = [
   "app-cash-turbine",
   "test-corutines",
   "kotlinx-coroutines-core",
+  "junit-api",
+  "kotlin-test",
 ]
 test-compose = [
   "roborazzi",
@@ -112,5 +116,5 @@ test-compose = [
   "core-testing",
   "robolectric",
   "hilt-testing",
-  "androidx-activity-compose"
+  "androidx-activity-compose",
 ]
