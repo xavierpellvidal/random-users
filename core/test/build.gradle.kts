@@ -1,15 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.com.google.dagger.hilt.android)
-    alias(libs.plugins.roborazzi)
 }
 
 android {
-    namespace = "${AppVersions.APPLICATION_ID}.users"
+    namespace = "${AppVersions.APPLICATION_ID}.core.test"
     compileSdk = AppVersions.COMPILE_SDK
 
     defaultConfig {
@@ -33,32 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = AppVersions.JVM_TARGET
     }
-    buildFeatures {
-        compose = true
-    }
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.material3)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.layer.presentation)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.okhttp)
-    implementation(libs.androidx.ui.tooling)
-
+    implementation(libs.bundles.layer.data)
     ksp(libs.com.google.dagger.hilt.compiler)
-
-    implementation(project(":core:presentation"))
-    implementation(project(":domain"))
-
-    implementation(project(":core:test"))
-    testImplementation(project(":core:test"))
+    implementation(libs.bundles.test.compose)
     testImplementation(libs.bundles.test.unit)
-    testImplementation(libs.bundles.test.compose)
 }
