@@ -20,6 +20,7 @@ turbine = "1.1.0"
 coil = "3.1.0"
 room = "2.7.0"
 uiTooling = "1.7.8"
+composeJunit = "1.7.8"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -53,6 +54,7 @@ coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versio
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
+test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeJunit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -95,4 +97,5 @@ test-compose = [
   "roborazzi",
   "roborazzi-compose",
   "roborazzi-rule",
+  "test-junit4"
 ]

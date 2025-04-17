@@ -41,7 +41,7 @@ fun UsersScreen(
             onDeleteUser = { viewModel.handleEvent(UsersEvent.OnDeleteUser(uuid = it)) },
             onLoadUsers = { viewModel.handleEvent(UsersEvent.OnLoadUsers) },
             onFilterUsers = { viewModel.handleEvent(UsersEvent.OnFilterUsers(filterText = it)) },
-            onUserClick = { navController.navigate(UsersRoute.UserDetail(user = it))},
+            onUserClick = { navController.navigate(UsersRoute.UserDetail(user = it)) },
         )
     }
 }
