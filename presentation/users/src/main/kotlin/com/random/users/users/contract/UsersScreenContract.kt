@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.random.users.users.model.UserUiModel
 
 @Immutable
-data class UsersScreenUiState(
+internal data class UsersScreenUiState(
     val users: List<UserUiState> = emptyList(),
     val filterText: String = "",
     val contentState: ContentState = ContentState.Idle,
@@ -19,7 +19,7 @@ data class UsersScreenUiState(
 }
 
 @Immutable
-data class UserUiState(
+internal data class UserUiState(
     val user: UserUiModel,
     val userState: ContentState = ContentState.Idle,
 ) {
@@ -30,7 +30,7 @@ data class UserUiState(
     }
 }
 
-sealed interface UsersEvent {
+internal sealed interface UsersEvent {
     data object OnLoadUsers : UsersEvent
 
     data class OnFilterUsers(
@@ -40,4 +40,14 @@ sealed interface UsersEvent {
     data class OnDeleteUser(
         val uuid: String,
     ) : UsersEvent
+}
+
+internal sealed class UsersErrorUiEventsState {
+    data object Idle : UsersErrorUiEventsState()
+
+    data object DeleteError : UsersErrorUiEventsState()
+
+    data object LoadUsersError : UsersErrorUiEventsState()
+
+    data object UnknownError : UsersErrorUiEventsState()
 }

@@ -1,49 +1,69 @@
-# Random Users
 
-## Description
+## 📱 Overview
 
-This project is an Android application that displays a list of random users fetched from an API. Users can be filtered, deleted, and managed through a clean and modern UI built with Jetpack Compose.
+An Android application that displays a list of random users fetched from an external API. Features a modern and intuitive UI built with Jetpack Compose, allowing users to filter, delete, and manage profiles.
 
-## Tech Stack
+## ✨ Features
 
-- **Kotlin**: Main programming language.
-- **Coroutines & Flow**: For asynchronous programming and reactive data streams.
-- **Jetpack Compose**: Declarative UI framework.
-- **Hilt**: Dependency injection.
-- **Retrofit**: HTTP client for API communication.
-- **Arrow**: Functional programming utilities.
-- **Room**: Local database for offline storage.
-- **Turbine**: Testing reactive flows.
-- **Mockk**: Mocking library for unit tests.
-- **Roborazzi**: Screenshot testing.
-- **Robolectric**: Unit testing in a simulated Android environment.
-- (Planned) **MockWebServer**: For integration tests of network layers.
+- **User List**: Browse through random user profiles with detailed information
+- **Filtering**: Filter users by various criteria
+- **Local Storage**: Access previously loaded users while offline
+- **Reactive UI**: Real-time updates when data changes
 
-## Architecture
+## 🛠️ Tech Stack
 
-The project follows a **Clean Architecture** approach with an MVI (Model-View-Intent) pattern:
+| Category | Technologies |
+|----------|--------------|
+| **Core** | Kotlin, Coroutines, Flow |
+| **UI** | Jetpack Compose |
+| **Architecture** | Clean Architecture, MVI Pattern |
+| **Dependency Injection** | Hilt |
+| **Networking** | Retrofit |
+| **Local Storage** | Room |
+| **Functional Programming** | Arrow |
+| **Testing** | Turbine, Mockk, Roborazzi, Robolectric |
+| **Planned** | MockWebServer |
 
-- **Presentation Layer**: Contains UI components and `ViewModel`s.
-- **Domain Layer**: Business logic with `UseCase`s.
-- **Data Layer**: Handles data sources and repository implementation.
-- **Core Module**: Shared utilities and reusable components.
+## 🏗️ Architecture
 
-## Testing
+The project follows **Clean Architecture** principles with an MVI (Model-View-Intent) pattern:
 
-- **Unit Tests**: Cover `ViewModel`s.
-- **Integration Tests**: Planned for `UseCase` to `DataSource` layers using `MockWebServer` and `Room`.
-- (Planned) **UI Tests**: Screenshot testing with `Roborazzi`.
+- **Presentation Layer**: Compose UI components and ViewModels
+- **Domain Layer**: Business logic encapsulated in UseCases
+- **Data Layer**: Repository implementations and data sources
+- **Core Module**: Shared utilities and reusable components
 
-### Future Improvements
+```
+app/
+├── core/            # Core utilities and extensions
+├── data/            # Data layer implementations
+├── domain/          # Business logic and use cases
+└── presentation/    # UI components and ViewModels
+```
 
-- Implement **SharedFlow** to handle and consume errors across the app.
-- Add **integration tests** for `UseCase` to `DataSource` layers.
-- Fix **screenshot tests**
-- Expand **unit tests** for the `data` and `core` layers.
+## 🧪 Testing
 
-## Setup
+- **Unit Tests**: Cover ViewModels, data and parts of the core layers
+- **UI Tests**: Screenshot testing with Roborazzi implemented
+- **Integration Tests**: Planned for UseCase to DataSource layers using MockWebServer and Room
 
-1. Clone the repository.
-2. Open the project in Android Studio.
-3. Sync the project with Gradle.
-4. Run the app on an emulator or physical device.
+## 🚀 Future Improvements
+
+- Add integration tests for UseCase to DataSource layers using MockWebServer
+- Expand test coverage across the application
+
+## 🔧 Getting Started
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/random-users.git
+   ```
+2. Open the project in Android Studio
+3. Sync the project with Gradle
+4. Run the app on an emulator or physical device
+
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details
+```

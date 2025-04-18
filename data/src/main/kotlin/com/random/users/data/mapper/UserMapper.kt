@@ -7,7 +7,7 @@ import com.random.users.domain.models.UserName
 import com.random.users.domain.models.UserPicture
 import com.random.users.domain.models.UserStreet
 
-object UserMapper {
+internal object UserMapper {
     fun List<UserDto>.toDomain() = map { it.toDomain() }
 
     fun UserDto.toDomain() =

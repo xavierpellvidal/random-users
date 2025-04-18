@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.random.user.presentation.ui.theme.RandomUsersTheme
 
 @Composable
-fun UserSearchView(
+internal fun UserSearchView(
     modifier: Modifier = Modifier,
     search: String = "",
     onValueChange: (String) -> Unit,
@@ -24,7 +25,7 @@ fun UserSearchView(
     val searchState = rememberSaveable { mutableStateOf(search) }
 
     TextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().testTag("searchField"),
         value = searchState.value,
         onValueChange = { newText ->
             searchState.value = newText
@@ -54,7 +55,7 @@ fun UserSearchView(
 
 @PreviewLightDark
 @Composable
-fun CustomSearchViewPreview() {
+private fun CustomSearchViewPreview() {
     RandomUsersTheme {
         UserSearchView(
             search = "Search",

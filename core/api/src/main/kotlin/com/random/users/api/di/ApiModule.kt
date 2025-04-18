@@ -1,7 +1,7 @@
 package com.random.users.api.di
 
 import arrow.retrofit.adapter.either.EitherCallAdapterFactory
-import com.random.users.api.service.UsersApi
+import com.random.users.api.api.UsersApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

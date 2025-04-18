@@ -76,7 +76,7 @@ internal fun UserDetailScreen(
 }
 
 @Composable
-internal fun UserDetailContent(
+private fun UserDetailContent(
     modifier: Modifier = Modifier,
     user: UserUiModel,
 ) {
@@ -94,7 +94,7 @@ internal fun UserDetailContent(
 }
 
 @Composable
-fun ProfileCard(user: UserUiModel) {
+private fun ProfileCard(user: UserUiModel) {
     Card(
         modifier =
             Modifier
@@ -135,7 +135,7 @@ fun ProfileCard(user: UserUiModel) {
 }
 
 @Composable
-fun ContactInformationCard(
+private fun ContactInformationCard(
     email: String,
     phone: String,
 ) {
@@ -186,7 +186,7 @@ fun ContactInformationCard(
 }
 
 @Composable
-fun AddressCard(location: UserLocationUiModel) {
+private fun AddressCard(location: UserLocationUiModel) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -228,7 +228,7 @@ fun AddressCard(location: UserLocationUiModel) {
 
 @PreviewLightDark
 @Composable
-fun UserDetailScreenPreview() {
+private fun UserDetailScreenPreview() {
     RandomUsersTheme {
         UserDetailScreen(
             navController = rememberNavController(),
