@@ -6,6 +6,7 @@ import arrow.core.right
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
+import com.random.users.users.contract.UsersErrorUiEventsState
 import com.random.users.users.contract.UsersEvent
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.mapper.toUiState
@@ -14,9 +15,11 @@ import com.random.users.users.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.kotlin.any
 import kotlin.getValue
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -31,6 +34,7 @@ class UsersViewModelTest {
         UsersViewModel(getUsersListUseCase, deleteUserUseCase)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `GIVEN getUsersListUseCase returns users WHEN load users event THEN receives correct state`() =
         runTest {
@@ -61,11 +65,9 @@ class UsersViewModelTest {
         runTest {
             coEvery { getUsersListUseCase(any()) } returns UsersErrors.NetworkError.left()
 
-            viewModel.handleEvent(UsersEvent.OnLoadUsers)
-
-            viewModel.uiState.test {
-                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Loading)
-                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Idle)
+            viewModel.uiEventsState.test {
+                viewModel.handleEvent(UsersEvent.OnLoadUsers)
+                assertEquals(UsersErrorUiEventsState.LoadUsersError, awaitItem())
                 expectNoEvents()
             }
 
@@ -120,6 +122,22 @@ class UsersViewModelTest {
 
             coVerify(exactly = 0) {
                 getUsersListUseCase(any())
+                deleteUserUseCase(any())
+            }
+        }
+
+    @Test
+    fun `GIVEN deleteUser returns error WHEN deleteUserUseCase THEN receives error state`() =
+        runTest {
+            coEvery { deleteUserUseCase("1") } returns UsersErrors.UserError.left()
+
+            viewModel.uiEventsState.test {
+                viewModel.handleEvent(UsersEvent.OnDeleteUser("1"))
+                assertEquals(UsersErrorUiEventsState.DeleteError, awaitItem())
+                expectNoEvents()
+            }
+
+            coVerify {
                 deleteUserUseCase(any())
             }
         }
