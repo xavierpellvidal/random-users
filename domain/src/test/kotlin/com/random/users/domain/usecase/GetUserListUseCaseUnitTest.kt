@@ -2,6 +2,7 @@ package com.random.users.domain.usecase
 
 import arrow.core.left
 import arrow.core.right
+import com.random.users.domain.models.User
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.mother.UserMother
 import com.random.users.domain.repository.UsersRepository
@@ -90,7 +91,7 @@ class GetUserListUseCaseUnitTest {
 
             val result = getUserListUseCase(1)
 
-            Assert.assertEquals(emptyList<String>().right(), result)
+            Assert.assertEquals(emptyList<User>().right(), result)
             coVerify { usersRepository.getUsers(1, any()) }
             coVerify { usersRepository.getDeletedUsers() }
         }
