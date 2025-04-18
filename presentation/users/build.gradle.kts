@@ -61,4 +61,5 @@ dependencies {
     testImplementation(project(":core:test"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)
+    debugImplementation(libs.test.manifest)
 }
