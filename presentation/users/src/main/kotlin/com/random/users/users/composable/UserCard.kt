@@ -31,11 +31,6 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.random.user.presentation.ui.theme.RandomUsersTheme
-import com.random.users.domain.models.User
-import com.random.users.domain.models.UserLocation
-import com.random.users.domain.models.UserName
-import com.random.users.domain.models.UserPicture
-import com.random.users.domain.models.UserStreet
 import com.random.users.users.contract.UserUiState
 import com.random.users.users.model.UserLocationUiModel
 import com.random.users.users.model.UserNameUiModel
@@ -44,7 +39,7 @@ import com.random.users.users.model.UserStreetUiModel
 import com.random.users.users.model.UserUiModel
 
 @Composable
-fun UserCard(
+internal fun UserCard(
     modifier: Modifier = Modifier,
     user: UserUiState,
     onDeleteUser: (String) -> Unit,
@@ -123,7 +118,7 @@ fun UserCard(
 
 @PreviewLightDark
 @Composable
-fun UserCardPreview() {
+private fun UserCardPreview() {
     RandomUsersTheme {
         UserCard(
             user =

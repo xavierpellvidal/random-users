@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.random.user.presentation.ui.theme.RandomUsersTheme
 
 @Composable
-fun UserSearchView(
+internal fun UserSearchView(
     modifier: Modifier = Modifier,
     search: String = "",
     onValueChange: (String) -> Unit,
@@ -54,7 +54,7 @@ fun UserSearchView(
 
 @PreviewLightDark
 @Composable
-fun CustomSearchViewPreview() {
+private fun CustomSearchViewPreview() {
     RandomUsersTheme {
         UserSearchView(
             search = "Search",

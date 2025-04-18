@@ -31,7 +31,7 @@ import com.random.users.users.navigation.UsersRoute
 import com.random.users.users.viewmodel.UsersViewModel
 
 @Composable
-fun UsersScreen(
+internal fun UsersScreen(
     viewModel: UsersViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
@@ -52,7 +52,7 @@ fun UsersScreen(
 }
 
 @Composable
-fun ProcessError(state: UsersErrorUiEventsState) {
+private fun ProcessError(state: UsersErrorUiEventsState) {
     when (state) {
         is UsersErrorUiEventsState.DeleteError -> {
             Toast.makeText(LocalContext.current, "Error deleting user", Toast.LENGTH_SHORT).show()
@@ -67,7 +67,7 @@ fun ProcessError(state: UsersErrorUiEventsState) {
 }
 
 @Composable
-internal fun UsersContent(
+private fun UsersContent(
     modifier: Modifier = Modifier,
     state: UsersScreenUiState,
     onDeleteUser: (String) -> Unit,
@@ -95,7 +95,7 @@ internal fun UsersContent(
 
 @PreviewLightDark
 @Composable
-fun UsersScreenPreview() {
+private fun UsersScreenPreview() {
     RandomUsersTheme {
         UsersContent(
             state =

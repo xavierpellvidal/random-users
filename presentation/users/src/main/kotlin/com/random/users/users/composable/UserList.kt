@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 
 @Composable
-fun UserList(
+internal fun UserList(
     modifier: Modifier = Modifier,
     state: UsersScreenUiState,
     onDeleteUser: (String) -> Unit,
@@ -115,7 +115,7 @@ private fun LazyListState.reachedBottom(buffer: Int = 1): Boolean {
 
 @PreviewLightDark
 @Composable
-fun UserListPreview() {
+private fun UserListPreview() {
     RandomUsersTheme {
         UserList(
             state =

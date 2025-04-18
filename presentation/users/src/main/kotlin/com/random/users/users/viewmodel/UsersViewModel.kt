@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UsersViewModel
+internal class UsersViewModel
     @Inject
     constructor(
         private val getUserListUseCase: GetUserListUseCase,
