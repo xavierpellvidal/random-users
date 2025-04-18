@@ -1,11 +1,10 @@
-package com.random.users.domain
+package com.random.users.domain.usecase
 
 import arrow.core.left
 import arrow.core.right
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.mother.UserMother
 import com.random.users.domain.repository.UsersRepository
-import com.random.users.domain.usecase.GetUserListUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -15,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.any
 
-class GetUserListUseCaseTest {
+class GetUserListUseCaseUnitTest {
     private lateinit var usersRepository: UsersRepository
     private lateinit var getUserListUseCase: GetUserListUseCase
 

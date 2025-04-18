@@ -1,4 +1,4 @@
-package com.random.users.api.service
+package com.random.users.api.api
 
 import arrow.core.Either
 import arrow.retrofit.adapter.either.networkhandling.CallError
