@@ -13,7 +13,6 @@ import arrow.core.right
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.random.user.presentation.ui.theme.RandomUsersTheme
 import com.random.users.domain.models.UserName
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
@@ -192,9 +191,7 @@ internal class UsersScreenTest {
 
     private fun renderScreen() {
         composeTestRule.setContent {
-            RandomUsersTheme {
-                UsersScreen(viewModel)
-            }
+            UsersScreen(viewModel)
         }
     }
 }

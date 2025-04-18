@@ -19,7 +19,7 @@ internal fun List<User>.toUiState(): List<UserUiState> =
         )
     }
 
-private fun User.toUiModel() =
+internal fun User.toUiModel() =
     UserUiModel(
         uuid = uuid,
         name = name.toUiModel(),
