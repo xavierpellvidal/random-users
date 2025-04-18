@@ -6,11 +6,10 @@ import arrow.core.right
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
-import com.random.users.users.contract.UserUiState
 import com.random.users.users.contract.UsersEvent
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.mapper.toUiState
-import com.random.users.users.mother.UsersMother
+import com.random.users.users.mother.UserMother
 import com.random.users.users.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -32,81 +31,96 @@ class UsersViewModelTest {
         UsersViewModel(getUsersListUseCase, deleteUserUseCase)
     }
 
-@Test
-fun `GIVEN getUsersListUseCase returns users WHEN load users event THEN receives correct state`() =
-    runTest {
-        val expectedUsers = UsersMother.createList(20)
-        coEvery { getUsersListUseCase(any()) } returns expectedUsers.right()
+    @Test
+    fun `GIVEN getUsersListUseCase returns users WHEN load users event THEN receives correct state`() =
+        runTest {
+            val expectedUsers =
+                listOf(
+                    UserMother.createModel(uuid = "1"),
+                    UserMother.createModel(uuid = "2"),
+                    UserMother.createModel(uuid = "3"),
+                )
+            coEvery { getUsersListUseCase(any()) } returns expectedUsers.right()
 
-        viewModel.handleEvent(UsersEvent.OnLoadUsers)
+            viewModel.handleEvent(UsersEvent.OnLoadUsers)
 
-        viewModel.uiState.test {
-            assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Loading)
-            assertEquals(expectedUsers.toUiState(), awaitItem().users)
-            expectNoEvents()
+            viewModel.uiState.test {
+                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Loading)
+                assertEquals(expectedUsers.toUiState(), awaitItem().users)
+                expectNoEvents()
+            }
+
+            coVerify {
+                getUsersListUseCase(any())
+            }
+            coVerify(exactly = 0) { deleteUserUseCase(any()) }
         }
 
-        coVerify {
-            getUsersListUseCase(any())
-        }
-        coVerify(exactly = 0) { deleteUserUseCase(any()) }
-    }
+    @Test
+    fun `GIVEN getUsersListUseCase returns error WHEN load users event THEN receives error state`() =
+        runTest {
+            coEvery { getUsersListUseCase(any()) } returns UsersErrors.NetworkError.left()
 
-@Test
-fun `GIVEN getUsersListUseCase returns error WHEN load users event THEN receives error state`() =
-    runTest {
-        coEvery { getUsersListUseCase(any()) } returns UsersErrors.NetworkError.left()
+            viewModel.handleEvent(UsersEvent.OnLoadUsers)
 
-        viewModel.handleEvent(UsersEvent.OnLoadUsers)
+            viewModel.uiState.test {
+                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Loading)
+                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Idle)
+                expectNoEvents()
+            }
 
-        viewModel.uiState.test {
-            assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Loading)
-            assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Idle)
-            expectNoEvents()
-        }
-
-        coVerify {
-            getUsersListUseCase(any())
-        }
-    }
-
-@Test
-fun `GIVEN getUsersListUseCase returns users WHEN filter users event with text THEN receives correct state`() =
-    runTest {
-        val expectedUsers = UsersMother.createList(20)
-        coEvery { getUsersListUseCase(any()) } returns expectedUsers.right()
-
-        viewModel.handleEvent(UsersEvent.OnFilterUsers("test"))
-
-        viewModel.uiState.test {
-            val item = awaitItem()
-            assertTrue(item.contentState is UsersScreenUiState.ContentState.Filtered)
-            assertEquals(item.filterText, "test")
+            coVerify {
+                getUsersListUseCase(any())
+            }
         }
 
-        coVerify(exactly = 0) {
-            getUsersListUseCase(any())
-            deleteUserUseCase(any())
+    @Test
+    fun `GIVEN getUsersListUseCase returns users WHEN filter users event with text THEN receives correct state`() =
+        runTest {
+            val expectedUsers =
+                listOf(
+                    UserMother.createModel(uuid = "1"),
+                    UserMother.createModel(uuid = "2"),
+                    UserMother.createModel(uuid = "3"),
+                )
+            coEvery { getUsersListUseCase(any()) } returns expectedUsers.right()
+
+            viewModel.handleEvent(UsersEvent.OnFilterUsers("test"))
+
+            viewModel.uiState.test {
+                val item = awaitItem()
+                assertTrue(item.contentState is UsersScreenUiState.ContentState.Filtered)
+                assertEquals(item.filterText, "test")
+            }
+
+            coVerify(exactly = 0) {
+                getUsersListUseCase(any())
+                deleteUserUseCase(any())
+            }
         }
-    }
 
-@Test
-fun `GIVEN getUsersListUseCase returns users WHEN filter users event with no text THEN receives correct state`() =
-    runTest {
-        val expectedUsers = UsersMother.createList(20)
-        coEvery { getUsersListUseCase(any()) } returns expectedUsers.right()
+    @Test
+    fun `GIVEN getUsersListUseCase returns users WHEN filter users event with no text THEN receives correct state`() =
+        runTest {
+            val expectedUsers =
+                listOf(
+                    UserMother.createModel(uuid = "1"),
+                    UserMother.createModel(uuid = "2"),
+                    UserMother.createModel(uuid = "3"),
+                )
+            coEvery { getUsersListUseCase(any()) } returns expectedUsers.right()
 
-        viewModel.handleEvent(UsersEvent.OnFilterUsers(""))
+            viewModel.handleEvent(UsersEvent.OnFilterUsers(""))
 
-        viewModel.uiState.test {
-            val item = awaitItem()
-            assertTrue(item.contentState is UsersScreenUiState.ContentState.Idle)
-            assertEquals(item.filterText, "")
+            viewModel.uiState.test {
+                val item = awaitItem()
+                assertTrue(item.contentState is UsersScreenUiState.ContentState.Idle)
+                assertEquals(item.filterText, "")
+            }
+
+            coVerify(exactly = 0) {
+                getUsersListUseCase(any())
+                deleteUserUseCase(any())
+            }
         }
-
-        coVerify(exactly = 0) {
-            getUsersListUseCase(any())
-            deleteUserUseCase(any())
-        }
-    }
 }
