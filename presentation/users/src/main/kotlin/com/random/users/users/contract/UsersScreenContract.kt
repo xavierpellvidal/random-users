@@ -41,3 +41,13 @@ sealed interface UsersEvent {
         val uuid: String,
     ) : UsersEvent
 }
+
+sealed class UsersErrorUiEventsState {
+    data object Idle : UsersErrorUiEventsState()
+
+    data object DeleteError : UsersErrorUiEventsState()
+
+    data object LoadUsersError : UsersErrorUiEventsState()
+
+    data object UnknownError : UsersErrorUiEventsState()
+}

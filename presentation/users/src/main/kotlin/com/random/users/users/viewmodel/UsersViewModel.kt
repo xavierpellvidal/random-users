@@ -5,12 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
 import com.random.users.users.contract.UserUiState
+import com.random.users.users.contract.UsersErrorUiEventsState
 import com.random.users.users.contract.UsersEvent
 import com.random.users.users.contract.UsersScreenUiState
+import com.random.users.users.mapper.UsersErrorsMapper.toUiError
 import com.random.users.users.mapper.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,6 +32,8 @@ class UsersViewModel
                 UsersScreenUiState(),
             )
         val uiState: StateFlow<UsersScreenUiState> = _uiState
+        private val _uiEventsState = MutableSharedFlow<UsersErrorUiEventsState>()
+        val uiEventsState: SharedFlow<UsersErrorUiEventsState> = _uiEventsState.asSharedFlow()
 
         private var currentPage: Int = 0
         private var userList: List<UserUiState> = emptyList()
@@ -54,8 +61,8 @@ class UsersViewModel
             viewModelScope.launch {
                 getUserListUseCase(page = currentPage)
                     .fold(
-                        ifLeft = {
-                            // TODO send error loading users
+                        ifLeft = { error ->
+                            _uiEventsState.emit(error.toUiError())
                             _uiState.update { state ->
                                 state.copy(contentState = UsersScreenUiState.ContentState.Idle)
                             }
@@ -78,12 +85,12 @@ class UsersViewModel
             viewModelScope.launch {
                 deleteUserUseCase(uuid = uuid)
                     .fold(
-                        ifLeft = {
+                        ifLeft = { error ->
+                            _uiEventsState.emit(error.toUiError())
                             userList =
                                 userList.updateUser(uuid) { user ->
                                     user.copy(userState = UserUiState.ContentState.Idle)
                                 }
-                            // TODO send error deleting movie
                         },
                         ifRight = { _ ->
                             userList = userList.filterNot { it.user.uuid == uuid }
