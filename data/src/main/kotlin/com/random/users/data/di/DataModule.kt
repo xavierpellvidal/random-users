@@ -1,6 +1,6 @@
 package com.random.users.data.di
 
-import com.random.users.api.service.UsersApi
+import com.random.users.api.api.UsersApi
 import com.random.users.data.datasource.SeedLocalDataSource
 import com.random.users.data.datasource.SeedPreferencesDataSource
 import com.random.users.data.datasource.UsersApiDataSource

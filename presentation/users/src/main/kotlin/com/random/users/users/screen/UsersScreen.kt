@@ -1,5 +1,6 @@
 package com.random.users.users.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,6 +19,7 @@ import com.random.user.presentation.ui.theme.RandomUsersTheme
 import com.random.users.users.composable.UserList
 import com.random.users.users.composable.UserSearchView
 import com.random.users.users.contract.UserUiState
+import com.random.users.users.contract.UsersErrorUiEventsState
 import com.random.users.users.contract.UsersEvent
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.model.UserLocationUiModel
@@ -28,11 +31,12 @@ import com.random.users.users.navigation.UsersRoute
 import com.random.users.users.viewmodel.UsersViewModel
 
 @Composable
-fun UsersScreen(
+internal fun UsersScreen(
     viewModel: UsersViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val eventsState by viewModel.uiEventsState.collectAsStateWithLifecycle(UsersErrorUiEventsState.Idle)
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         UsersContent(
@@ -44,10 +48,26 @@ fun UsersScreen(
             onUserClick = { navController.navigate(UsersRoute.UserDetail(user = it)) },
         )
     }
+    ProcessError(eventsState)
 }
 
 @Composable
-internal fun UsersContent(
+private fun ProcessError(state: UsersErrorUiEventsState) {
+    when (state) {
+        is UsersErrorUiEventsState.DeleteError -> {
+            Toast.makeText(LocalContext.current, "Error deleting user", Toast.LENGTH_SHORT).show()
+        }
+
+        is UsersErrorUiEventsState.LoadUsersError -> {
+            Toast.makeText(LocalContext.current, "Error loading users", Toast.LENGTH_SHORT).show()
+        }
+
+        else -> {}
+    }
+}
+
+@Composable
+private fun UsersContent(
     modifier: Modifier = Modifier,
     state: UsersScreenUiState,
     onDeleteUser: (String) -> Unit,
@@ -75,7 +95,7 @@ internal fun UsersContent(
 
 @PreviewLightDark
 @Composable
-fun UsersScreenPreview() {
+private fun UsersScreenPreview() {
     RandomUsersTheme {
         UsersContent(
             state =

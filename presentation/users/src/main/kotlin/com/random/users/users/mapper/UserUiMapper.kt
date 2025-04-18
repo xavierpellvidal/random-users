@@ -12,14 +12,14 @@ import com.random.users.users.model.UserPictureUiModel
 import com.random.users.users.model.UserStreetUiModel
 import com.random.users.users.model.UserUiModel
 
-fun List<User>.toUiState(): List<UserUiState> =
+internal fun List<User>.toUiState(): List<UserUiState> =
     map { user ->
         UserUiState(
             user = user.toUiModel(),
         )
     }
 
-fun User.toUiModel() =
+internal fun User.toUiModel() =
     UserUiModel(
         uuid = uuid,
         name = name.toUiModel(),
@@ -30,26 +30,26 @@ fun User.toUiModel() =
         picture = picture.toUiModel(),
     )
 
-fun UserName.toUiModel() =
+private fun UserName.toUiModel() =
     UserNameUiModel(
         first = first,
         last = last,
     )
 
-fun UserLocation.toUiModel() =
+private fun UserLocation.toUiModel() =
     UserLocationUiModel(
         street = street.toUiModel(),
         city = city,
         state = state,
     )
 
-fun UserStreet.toUiModel() =
+private fun UserStreet.toUiModel() =
     UserStreetUiModel(
         number = number,
         name = name,
     )
 
-fun UserPicture.toUiModel() =
+private fun UserPicture.toUiModel() =
     UserPictureUiModel(
         medium = medium,
         thumbnail = thumbnail,

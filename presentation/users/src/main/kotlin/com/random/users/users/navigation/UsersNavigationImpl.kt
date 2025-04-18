@@ -12,6 +12,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.random.user.presentation.navigation.BaseNavRoutes
 import com.random.user.presentation.navigation.FeatureNavigation
+import com.random.user.presentation.ui.theme.RandomUsersTheme
 import com.random.users.users.model.UserUiModel
 import com.random.users.users.screen.UserDetailScreen
 import com.random.users.users.screen.UsersScreen
@@ -30,7 +31,9 @@ class UsersNavigationImpl
                 startDestination = UsersRoute.Home,
             ) {
                 composable<UsersRoute.Home> {
-                    UsersScreen(navController = navController)
+                    RandomUsersTheme {
+                        UsersScreen(navController = navController)
+                    }
                 }
                 composable<UsersRoute.UserDetail>(
                     typeMap = mapOf(typeOf<UserUiModel>() to UserParamType),
