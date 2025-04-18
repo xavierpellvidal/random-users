@@ -14,7 +14,6 @@ arrow = "2.0.1"
 roborazzi = "1.39.0"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
-mockitoKotlin = "5.3.1"
 ioMockk = "1.13.17"
 turbine = "1.1.0"
 coil = "3.1.0"
@@ -50,7 +49,6 @@ okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
 io-mockk = { module = "io.mockk:mockk", version.ref = "ioMockk" }
-kotlin-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
@@ -101,7 +99,6 @@ test-unit = [
   "junit",
   "mockwebserver",
   "io-mockk",
-  "kotlin-mockito-kotlin",
   "app-cash-turbine",
   "test-corutines",
   "kotlinx-coroutines-core",
@@ -116,4 +113,5 @@ test-compose = [
   "robolectric",
   "hilt-testing",
   "androidx-activity-compose",
+  "test-manifest"
 ]

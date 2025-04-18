@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.random.user.presentation.ui.theme.RandomUsersTheme
@@ -67,7 +68,7 @@ internal fun UserList(
     }
 
     LazyColumn(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().testTag("userList"),
         state = listState,
         flingBehavior = rememberSnapFlingBehavior(listState),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -82,7 +83,8 @@ internal fun UserList(
                     Modifier
                         .fillMaxWidth()
                         .animateItem()
-                        .clickable { onUserClick(user.user) },
+                        .clickable { onUserClick(user.user) }
+                        .testTag(user.user.uuid),
                 user = user,
                 onDeleteUser = { uuid -> onDeleteUser(uuid) },
             )
@@ -115,7 +117,7 @@ private fun LazyListState.reachedBottom(buffer: Int = 1): Boolean {
 
 @PreviewLightDark
 @Composable
-private fun UserListPreview() {
+fun UserListPreview() {
     RandomUsersTheme {
         UserList(
             state =

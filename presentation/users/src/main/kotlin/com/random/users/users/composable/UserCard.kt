@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -102,6 +103,7 @@ internal fun UserCard(
                 }
                 else -> {
                     IconButton(
+                        modifier = Modifier.testTag("${user.user.uuid}-delete"),
                         onClick = { onDeleteUser(user.user.uuid) },
                     ) {
                         Icon(

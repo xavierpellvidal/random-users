@@ -39,6 +39,10 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all {
+                it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+            }
         }
     }
 }
@@ -61,5 +65,4 @@ dependencies {
     testImplementation(project(":core:test"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)
-    debugImplementation(libs.test.manifest)
 }
