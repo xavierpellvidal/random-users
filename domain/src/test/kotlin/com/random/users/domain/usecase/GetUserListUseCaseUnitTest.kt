@@ -12,7 +12,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.any
 
 class GetUserListUseCaseUnitTest {
     private lateinit var usersRepository: UsersRepository
@@ -34,10 +33,10 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "3"),
                 )
             val deletedUsers = listOf("2")
-            coEvery { usersRepository.getUsers(any(), any()) } returns users.right()
+            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns deletedUsers.right()
 
-            val result = getUserListUseCase(any<Int>())
+            val result = getUserListUseCase(1)
 
             Assert.assertEquals(
                 listOf(
@@ -46,7 +45,7 @@ class GetUserListUseCaseUnitTest {
                 ).right(),
                 result,
             )
-            coVerify { usersRepository.getUsers(any(), any()) }
+            coVerify { usersRepository.getUsers(1, any()) }
             coVerify { usersRepository.getDeletedUsers() }
         }
 
@@ -59,10 +58,10 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "2"),
                     UserMother.createModel(uuid = "3"),
                 )
-            coEvery { usersRepository.getUsers(any(), any()) } returns users.right()
+            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns emptyList<String>().right()
 
-            val result = getUserListUseCase(any<Int>())
+            val result = getUserListUseCase(1)
 
             Assert.assertEquals(
                 listOf(
@@ -72,7 +71,7 @@ class GetUserListUseCaseUnitTest {
                 ).right(),
                 result,
             )
-            coVerify { usersRepository.getUsers(any(), any()) }
+            coVerify { usersRepository.getUsers(1, any()) }
             coVerify { usersRepository.getDeletedUsers() }
         }
 
@@ -86,13 +85,13 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "3"),
                 )
             val deletedUsers = listOf("1", "2", "3")
-            coEvery { usersRepository.getUsers(any(), any()) } returns users.right()
+            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns deletedUsers.right()
 
-            val result = getUserListUseCase(any<Int>())
+            val result = getUserListUseCase(1)
 
             Assert.assertEquals(emptyList<String>().right(), result)
-            coVerify { usersRepository.getUsers(any(), any()) }
+            coVerify { usersRepository.getUsers(1, any()) }
             coVerify { usersRepository.getDeletedUsers() }
         }
 
@@ -100,9 +99,9 @@ class GetUserListUseCaseUnitTest {
     fun `GIVEN left in getUsers WHEN getUserListUseCase THEN returned left`() =
         runBlocking {
             val error = UsersErrors.NetworkError
-            coEvery { usersRepository.getUsers(any(), any()) } returns error.left()
+            coEvery { usersRepository.getUsers(1, any()) } returns error.left()
 
-            val result = getUserListUseCase(any<Int>())
+            val result = getUserListUseCase(1)
 
             Assert.assertEquals(error.left(), result)
             coVerify { usersRepository.getUsers(any(), any()) }
@@ -118,10 +117,10 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "2"),
                     UserMother.createModel(uuid = "3"),
                 )
-            coEvery { usersRepository.getUsers(any(), any()) } returns users.right()
+            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns UsersErrors.UserError.left()
 
-            val result = getUserListUseCase(any<Int>())
+            val result = getUserListUseCase(1)
 
             Assert.assertEquals(
                 listOf(
