@@ -1,18 +1,23 @@
 package com.random.users.users.screen
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.random.user.presentation.ui.theme.RandomUsersTheme
@@ -29,6 +34,7 @@ import com.random.users.users.model.UserStreetUiModel
 import com.random.users.users.model.UserUiModel
 import com.random.users.users.navigation.UsersRoute
 import com.random.users.users.viewmodel.UsersViewModel
+import kotlinx.coroutines.flow.collect
 
 @Composable
 internal fun UsersScreen(
@@ -36,7 +42,13 @@ internal fun UsersScreen(
     navController: NavHostController = rememberNavController(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventsState by viewModel.uiEventsState.collectAsStateWithLifecycle(UsersErrorUiEventsState.Idle)
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.uiEventsState.collect { event ->
+            ProcessError(event, context)
+        }
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         UsersContent(
@@ -47,22 +59,6 @@ internal fun UsersScreen(
             onFilterUsers = { viewModel.handleEvent(UsersEvent.OnFilterUsers(filterText = it)) },
             onUserClick = { navController.navigate(UsersRoute.UserDetail(user = it)) },
         )
-    }
-    ProcessError(eventsState)
-}
-
-@Composable
-private fun ProcessError(state: UsersErrorUiEventsState) {
-    when (state) {
-        is UsersErrorUiEventsState.DeleteError -> {
-            Toast.makeText(LocalContext.current, "Error deleting user", Toast.LENGTH_SHORT).show()
-        }
-
-        is UsersErrorUiEventsState.LoadUsersError -> {
-            Toast.makeText(LocalContext.current, "Error loading users", Toast.LENGTH_SHORT).show()
-        }
-
-        else -> {}
     }
 }
 
@@ -90,6 +86,23 @@ private fun UsersContent(
             onLoadUsers = { onLoadUsers() },
             onUserClick = { user -> onUserClick(user) },
         )
+    }
+}
+
+private fun ProcessError(
+    state: UsersErrorUiEventsState,
+    context: Context,
+) {
+    when (state) {
+        is UsersErrorUiEventsState.DeleteError -> {
+            Toast.makeText(context, "Error deleting user", Toast.LENGTH_SHORT).show()
+        }
+
+        is UsersErrorUiEventsState.LoadUsersError -> {
+            Toast.makeText(context, "Error loading users", Toast.LENGTH_SHORT).show()
+        }
+
+        else -> {}
     }
 }
 
