@@ -30,11 +30,27 @@ android {
     kotlinOptions {
         jvmTarget = AppVersions.JVM_TARGET
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
     implementation(libs.bundles.layer.data)
     ksp(libs.com.google.dagger.hilt.compiler)
     implementation(libs.bundles.test.compose)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.room.ktx)
+    implementation(libs.room.testing)
+
+    implementation(project(":core:api"))
+    implementation(project(":core:database"))
+    implementation(project(":core:preferences"))
+
     testImplementation(libs.bundles.test.unit)
 }

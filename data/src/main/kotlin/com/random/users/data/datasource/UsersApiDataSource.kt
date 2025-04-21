@@ -23,6 +23,8 @@ internal class UsersApiDataSource
                     page = page,
                     results = results,
                     seed = seed,
-                ).mapLeft { UsersErrors.NetworkError }
+                ).mapLeft {
+                    UsersErrors.NetworkError
+                }
         }
     }

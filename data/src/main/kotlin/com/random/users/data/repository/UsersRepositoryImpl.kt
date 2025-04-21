@@ -31,7 +31,7 @@ internal class UsersRepositoryImpl
                 ).map { users ->
                     val newSeed = users.info.toDomain()
                     if (currentSeed != users.info.seed) {
-                        seedLocalDataSource.saveSeed(newSeed)
+                       seedLocalDataSource.saveSeed(newSeed)
                     }
                     users.results.toDomain()
                 }
