@@ -63,6 +63,7 @@ dependencies {
 
     implementation(project(":core:test"))
     testImplementation(project(":core:test"))
+    testImplementation(project(":data"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)
 }

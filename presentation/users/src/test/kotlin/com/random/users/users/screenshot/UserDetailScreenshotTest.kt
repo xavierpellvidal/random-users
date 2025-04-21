@@ -32,7 +32,7 @@ import kotlin.test.Test
 @RunWith(AndroidJUnit4::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(qualifiers = RobolectricDeviceQualifiers.Pixel4a)
-internal class UserDetailScreenTest {
+internal class UserDetailScreenshotTest {
     @get:Rule
     val composeTestRule = createScreenshotTestComposeRule()
 
