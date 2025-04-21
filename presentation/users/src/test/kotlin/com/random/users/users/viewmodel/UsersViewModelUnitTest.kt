@@ -23,7 +23,7 @@ import kotlin.getValue
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class UsersViewModelTest {
+class UsersViewModelUnitTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 

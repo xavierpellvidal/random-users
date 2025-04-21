@@ -13,7 +13,6 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.QueueDispatcher
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
@@ -21,15 +20,15 @@ import javax.inject.Singleton
     replaces = [ApiModule::class],
 )
 object TestApiModule {
+    private const val TEST_API_BASE_URL = "http://localhost:8080/"
+
     @Provides
-    @Singleton
     fun provideRetrofit(
-        mockWebServer: MockWebServer,
         client: OkHttpClient,
     ): Retrofit =
         Retrofit
             .Builder()
-            .baseUrl(mockWebServer.url("/").toString())
+            .baseUrl(TEST_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(EitherCallAdapterFactory.create())
             .client(client)
@@ -46,7 +45,6 @@ object TestApiModule {
     }
 
     @Provides
-    @Singleton
     fun provideMockWebServer(): MockWebServer {
         val mockWebServer = MockWebServer()
         val queueDispatcher = QueueDispatcher()
@@ -56,6 +54,5 @@ object TestApiModule {
     }
 
     @Provides
-    @Singleton
     fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create(UsersApi::class.java)
 }
