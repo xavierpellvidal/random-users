@@ -39,6 +39,8 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.hilt.testing)
+    implementation(libs.mockwebserver)
 
     ksp(libs.com.google.dagger.hilt.compiler)
 

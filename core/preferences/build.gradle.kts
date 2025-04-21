@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(libs.bundles.layer.data)
+    implementation(libs.hilt.testing)
 
     ksp(libs.com.google.dagger.hilt.compiler)
 
