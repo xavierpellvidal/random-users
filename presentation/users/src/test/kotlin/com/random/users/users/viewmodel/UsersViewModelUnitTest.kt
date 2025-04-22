@@ -11,7 +11,7 @@ import com.random.users.users.contract.UsersEvent
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.mapper.toUiState
 import com.random.users.users.mother.UserMother
-import com.random.users.users.rules.MainDispatcherRule
+import com.random.users.test.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
