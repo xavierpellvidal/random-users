@@ -6,8 +6,8 @@ An Android application that displays a list of random users fetched from an exte
 
 ## ✨ Features
 
-- **User List**: Browse through random user profiles with detailed information. Infinite scroll implemented
-- **USer details**: View detailed information about each user
+- **User list**: Browse through random user profiles with detailed information. Infinite scroll implemented
+- **User details**: View detailed information about each user
 - **Filtering**: Filter users by name, surname and email
 - **Delete**: Remove users from the list
 
