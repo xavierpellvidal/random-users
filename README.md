@@ -3,12 +3,14 @@
 
 An Android application that displays a list of random users fetched from an external API. Features a modern and intuitive UI built with Jetpack Compose, allowing users to filter and delete profiles.
 
+
 ## ✨ Features
 
 - **User List**: Browse through random user profiles with detailed information. Infinite scroll implemented
 - **USer details**: View detailed information about each user
 - **Filtering**: Filter users by name, surname and email
 - **Delete**: Remove users from the list
+
 
 ## 🛠️ Tech Stack
 
@@ -22,6 +24,7 @@ An Android application that displays a list of random users fetched from an exte
 | **Local Storage** | Room, SharedPreferences                               |
 | **Functional Programming** | Arrow                                                 |
 | **Testing** | Turbine, Mockk, Roborazzi, Robolectric, MockWebServer |
+
 
 ## 🏗️ Architecture
 
@@ -41,11 +44,13 @@ app/
     └── users/       # User list feature
 ```
 
+
 ## 🧪 Testing
 
 - **Unit Tests**: Cover ViewModels, usecases and data layer
 - **UI Tests**: Screenshot testing with Roborazzi implemented
 - **Integration Tests**: VM integration tests with mockwebserver
+
 
 ## 🚀 Future Improvements
 
@@ -54,6 +59,7 @@ app/
 - Integration tests from compose to data layer
 - Compose navigation tests
 - Github Actions for CI/CD
+
 
 ## 🔧 Getting Started
 
