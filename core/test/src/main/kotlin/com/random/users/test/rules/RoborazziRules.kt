@@ -1,11 +1,11 @@
 package com.random.users.test.rules
 
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.RoborazziRule
-import com.random.users.test.HiltComponentActivity
 
 fun createRoborazziRule(
     composeTestRule: AndroidComposeTestRule<*, *>,
@@ -32,4 +32,4 @@ fun createRoborazziRule(
             ),
     )
 
-fun createScreenshotTestComposeRule() = createAndroidComposeRule<HiltComponentActivity>()
+fun createScreenshotTestComposeRule() = createAndroidComposeRule<ComponentActivity>()

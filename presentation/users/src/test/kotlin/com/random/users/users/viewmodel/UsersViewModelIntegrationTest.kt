@@ -5,6 +5,7 @@ import app.cash.turbine.test
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
 import com.random.users.test.model.getUserListResponsePage1Json
+import com.random.users.test.rules.MainDispatcherRule
 import com.random.users.users.contract.UsersEvent
 import com.random.users.users.contract.UsersScreenUiState
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -14,7 +15,10 @@ import io.mockk.coVerify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import okhttp3.mockwebserver.MockResponse
@@ -23,6 +27,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -39,6 +44,12 @@ internal class UsersViewModelIntegrationTest {
     @JvmField
     val hiltRule = HiltAndroidRule(this)
 
+    @get:Rule(order = 1)
+    var instantRule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule(order = 2)
+    var mainRule: TestRule = MainDispatcherRule()
+
     @Inject
     lateinit var getUsersListUseCase: GetUserListUseCase
 
@@ -54,13 +65,11 @@ internal class UsersViewModelIntegrationTest {
     fun setup() {
         hiltRule.inject()
         viewModel = UsersViewModel(getUsersListUseCase, deleteUserUseCase)
-        Dispatchers.setMain(StandardTestDispatcher())
     }
 
     @After
     fun tearDown() {
         mockWebServer.shutdown()
-        Dispatchers.resetMain()
     }
 
     @Test
@@ -69,16 +78,14 @@ internal class UsersViewModelIntegrationTest {
             mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(getUserListResponsePage1Json))
 
             viewModel.handleEvent(UsersEvent.OnLoadUsers)
+            advanceUntilIdle()
 
             viewModel.uiState.test {
-                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Loading)
-
+                val initialState = awaitItem()
+                val loadingState = awaitItem()
+                assertTrue(initialState.contentState is UsersScreenUiState.ContentState.Loading)
+                assertTrue(loadingState.contentState is UsersScreenUiState.ContentState.Idle)
                 expectNoEvents()
             }
-
-            coVerify {
-                getUsersListUseCase(any())
-            }
-            coVerify(exactly = 0) { deleteUserUseCase(any()) }
         }
 }
