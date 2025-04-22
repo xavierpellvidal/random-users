@@ -34,7 +34,7 @@ import com.random.users.users.model.UserStreetUiModel
 import com.random.users.users.model.UserUiModel
 import com.random.users.users.navigation.UsersRoute
 import com.random.users.users.viewmodel.UsersViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 internal fun UsersScreen(
@@ -43,12 +43,7 @@ internal fun UsersScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.uiEventsState.collect { event ->
-            ProcessError(event, context)
-        }
-    }
+    HandleOneTimeEvents(viewModel.uiEventsState)
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         UsersContent(
@@ -89,7 +84,20 @@ private fun UsersContent(
     }
 }
 
-private fun ProcessError(
+@Composable
+private fun HandleOneTimeEvents(uiEventsState: Flow<UsersErrorUiEventsState>) {
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val context = LocalContext.current
+    LaunchedEffect(uiEventsState) {
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+            uiEventsState.collect { event ->
+                showError(state = event, context = context)
+            }
+        }
+    }
+}
+
+private fun showError(
     state: UsersErrorUiEventsState,
     context: Context,
 ) {
@@ -102,7 +110,9 @@ private fun ProcessError(
             Toast.makeText(context, "Error loading users", Toast.LENGTH_SHORT).show()
         }
 
-        else -> {}
+        else -> {
+            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

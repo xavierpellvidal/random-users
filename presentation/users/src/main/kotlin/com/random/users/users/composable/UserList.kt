@@ -166,7 +166,7 @@ private fun LazyListState.reachedBottom(buffer: Int = 1): Boolean {
 
 @PreviewLightDark
 @Composable
-fun UserListLoadingPreview() {
+private fun UserListLoadingPreview() {
     RandomUsersTheme {
         UserList(
             state =
@@ -193,7 +193,7 @@ fun UserListLoadingPreview() {
 
 @PreviewLightDark
 @Composable
-fun UserListErrorPreview() {
+private fun UserListErrorPreview() {
     RandomUsersTheme {
         UserList(
             state =

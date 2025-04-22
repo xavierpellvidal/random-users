@@ -3,7 +3,6 @@ package com.random.users.data.datasource
 import com.random.users.api.api.UsersApi
 import com.random.users.domain.models.UsersErrors
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
