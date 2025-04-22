@@ -1,6 +1,5 @@
-package com.random.users.users.rules
+package com.random.users.test.rules
 
-import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -22,6 +21,5 @@ class MainDispatcherRule(
     override fun finished(description: Description) {
         super.finished(description)
         Dispatchers.resetMain()
-        unmockkAll()
     }
 }

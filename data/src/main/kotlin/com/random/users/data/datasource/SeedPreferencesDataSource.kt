@@ -4,7 +4,6 @@ import arrow.core.Either
 import com.random.users.domain.models.UsersErrors
 import com.random.users.preferences.manager.PreferencesManager
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -12,7 +11,7 @@ internal class SeedPreferencesDataSource
     @Inject
     constructor(
         private val preferencesManager: PreferencesManager,
-        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val dispatcher: CoroutineDispatcher,
     ) : SeedLocalDataSource {
         override suspend fun getSeed() =
             withContext(dispatcher) {

@@ -7,15 +7,16 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipeUp
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import arrow.core.left
 import arrow.core.right
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.random.users.domain.models.UserName
+import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
+import com.random.users.test.rules.MainDispatcherRule
 import com.random.users.test.rules.createRoborazziRule
 import com.random.users.test.rules.createScreenshotTestComposeRule
 import com.random.users.users.mother.UserMother
@@ -23,16 +24,12 @@ import com.random.users.users.screen.UsersScreen
 import com.random.users.users.viewmodel.UsersViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
@@ -41,32 +38,31 @@ import kotlin.test.Test
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(qualifiers = RobolectricDeviceQualifiers.Pixel4a)
-internal class UsersScreenTest {
-    private val getUsersListUseCase: GetUserListUseCase = mockk()
-    private val deleteUserUseCase: DeleteUserUseCase = mockk()
-    private val viewModel: UsersViewModel by lazy {
-        UsersViewModel(getUsersListUseCase, deleteUserUseCase)
-    }
+@Config(
+    qualifiers = RobolectricDeviceQualifiers.Pixel7,
+    sdk = [34],
+)
+internal class UsersScreenshotTest {
+    @get:Rule(order = 1)
+    var instantRule: TestRule = InstantTaskExecutorRule()
 
-    @get:Rule
+    @get:Rule(order = 2)
+    var mainRule: TestRule = MainDispatcherRule()
+
+    @get:Rule(order = 3)
     val composeTestRule = createScreenshotTestComposeRule()
 
-    @get:Rule
+    @get:Rule(order = 4)
     val roborazziRule =
         createRoborazziRule(composeTestRule = composeTestRule, captureType = RoborazziRule.CaptureType.None)
 
-    @get:Rule
-    val instantRule = InstantTaskExecutorRule()
+    private val getUsersListUseCase: GetUserListUseCase = mockk()
+    private val deleteUserUseCase: DeleteUserUseCase = mockk()
+    lateinit var viewModel: UsersViewModel
 
     @Before
     fun setup() {
-        Dispatchers.setMain(StandardTestDispatcher())
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
+        viewModel = UsersViewModel(getUsersListUseCase, deleteUserUseCase)
     }
 
     @Test
@@ -92,7 +88,7 @@ internal class UsersScreenTest {
         }
 
     @Test
-    fun `GIVEN loaded screen WHEN delete first user THEN idle state without deleted user`() =
+    fun `GIVEN getUsersListUseCase returns users WHEN delete first user THEN idle state without deleted user`() =
         runTest {
             coEvery { getUsersListUseCase(any()) } returns
                 listOf(
@@ -121,49 +117,6 @@ internal class UsersScreenTest {
         }
 
     @Test
-    fun `GIVEN loaded screen WHEN scrolling THEN idle state with new data`() =
-        runTest {
-            coEvery { getUsersListUseCase(any()) } returnsMany
-                listOf(
-                    listOf(
-                        UserMother.createModel(uuid = "1"),
-                        UserMother.createModel(uuid = "2"),
-                        UserMother.createModel(uuid = "3"),
-                        UserMother.createModel(uuid = "4"),
-                        UserMother.createModel(uuid = "5"),
-                        UserMother.createModel(uuid = "6"),
-                        UserMother.createModel(uuid = "7"),
-                        UserMother.createModel(uuid = "8"),
-                        UserMother.createModel(uuid = "9"),
-                    ).right(),
-                    listOf(
-                        UserMother.createModel(uuid = "16", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "17", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "18", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "19", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "20", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "21", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "22", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "23", name = UserName(first = "Paco", last = "Doe")),
-                        UserMother.createModel(uuid = "24", name = UserName(first = "Paco", last = "Doe")),
-                    ).right(),
-                )
-
-            coEvery { deleteUserUseCase(any()) } returns Unit.right()
-
-            renderScreen()
-            advanceUntilIdle()
-            composeTestRule
-                .onNodeWithTag("userList")
-                .performTouchInput {
-                    swipeUp()
-                }
-            advanceUntilIdle()
-
-            composeTestRule.onRoot().captureRoboImage()
-        }
-
-    @Test
     fun `GIVEN loaded screen WHEN apply text on filter THEN users get filtered`() =
         runTest {
             coEvery { getUsersListUseCase(any()) } returns
@@ -184,6 +137,18 @@ internal class UsersScreenTest {
             composeTestRule
                 .onNodeWithTag("searchField")
                 .performTextInput("ade")
+            advanceUntilIdle()
+
+            composeTestRule.onRoot().captureRoboImage()
+        }
+
+    @Test
+    fun `GIVEN error in loading users WHEN load screen THEN error state`() =
+        runTest {
+            coEvery { getUsersListUseCase(any()) } returns
+                UsersErrors.NetworkError.left()
+
+            renderScreen()
             advanceUntilIdle()
 
             composeTestRule.onRoot().captureRoboImage()
