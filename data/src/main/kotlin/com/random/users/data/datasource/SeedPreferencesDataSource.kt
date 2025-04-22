@@ -12,7 +12,7 @@ internal class SeedPreferencesDataSource
     @Inject
     constructor(
         private val preferencesManager: PreferencesManager,
-        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val dispatcher: CoroutineDispatcher,
     ) : SeedLocalDataSource {
         override suspend fun getSeed() =
             withContext(dispatcher) {

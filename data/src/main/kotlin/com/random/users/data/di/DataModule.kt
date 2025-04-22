@@ -15,6 +15,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -22,16 +23,24 @@ import javax.inject.Singleton
 object DataModule {
     @Provides
     @Singleton
-    fun provideUsersRemoteDataSource(usersApi: UsersApi): UsersRemoteDataSource = UsersApiDataSource(usersApi)
+    fun provideUsersRemoteDataSource(
+        usersApi: UsersApi,
+        dispatcher: CoroutineDispatcher,
+    ): UsersRemoteDataSource = UsersApiDataSource(usersApi, dispatcher)
 
     @Provides
     @Singleton
-    fun provideUsersLocalDataSource(userDao: UserDao): UsersLocalDataSource = UsersDatabaseDataSource(userDao)
+    fun provideUsersLocalDataSource(
+        userDao: UserDao,
+        dispatcher: CoroutineDispatcher,
+    ): UsersLocalDataSource = UsersDatabaseDataSource(userDao, dispatcher)
 
     @Provides
     @Singleton
-    fun provideSeedLocalDataSource(preferencesManager: PreferencesManager): SeedLocalDataSource =
-        SeedPreferencesDataSource(preferencesManager)
+    fun provideSeedLocalDataSource(
+        preferencesManager: PreferencesManager,
+        dispatcher: CoroutineDispatcher,
+    ): SeedLocalDataSource = SeedPreferencesDataSource(preferencesManager, dispatcher)
 
     @Provides
     fun provideUsersRepository(

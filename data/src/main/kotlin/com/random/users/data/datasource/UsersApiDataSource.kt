@@ -11,7 +11,7 @@ internal class UsersApiDataSource
     @Inject
     constructor(
         private val usersApi: UsersApi,
-        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val dispatcher: CoroutineDispatcher,
     ) : UsersRemoteDataSource {
         override suspend fun getUsers(
             page: Int,
