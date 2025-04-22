@@ -52,7 +52,7 @@ internal fun UserCard(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(46.dp),
+                    .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(

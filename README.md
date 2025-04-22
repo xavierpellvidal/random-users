@@ -55,12 +55,14 @@ app/
 ## 🚀 Future Improvements
 
 - Manage strings in core-presentation module
+- Add ui-components to core-presentation module or to a new ds module
 - Expand test coverage across the application
-- Integration tests from compose to data layer
+- Integration tests from roborazzi to data layer
 - Compose navigation tests
 - Kover for coverage reports
 - Konsists for code quality
 - Ktlint for code style
+- Add screenshot results in PR to see the differences
 
 
 ## 🔧 Getting Started
