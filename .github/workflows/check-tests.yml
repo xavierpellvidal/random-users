@@ -37,5 +37,5 @@ jobs:
 
       - name: Run tests
         id: run_tests
-        run: ./gradlew :app:testDebugUnitTest
+        run: ./gradlew test
         continue-on-error: false
