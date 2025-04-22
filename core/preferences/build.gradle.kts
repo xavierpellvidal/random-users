@@ -37,6 +37,4 @@ dependencies {
     implementation(libs.hilt.testing)
 
     ksp(libs.com.google.dagger.hilt.compiler)
-
-    testImplementation(libs.bundles.test.unit)
 }

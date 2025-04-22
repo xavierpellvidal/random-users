@@ -60,11 +60,9 @@ dependencies {
 
     implementation(project(":core:presentation"))
     implementation(project(":domain"))
-    implementation(project(":core:test"))
 
     testImplementation(project(":core:test"))
     testImplementation(project(":data"))
-    testImplementation(project(":core:api"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)
 }

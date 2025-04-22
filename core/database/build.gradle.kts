@@ -40,6 +40,4 @@ dependencies {
 
     ksp(libs.com.google.dagger.hilt.compiler)
     ksp(libs.room.compiler)
-
-    testImplementation(libs.bundles.test.unit)
 }

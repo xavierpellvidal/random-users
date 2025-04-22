@@ -6,7 +6,7 @@ import com.random.users.domain.models.UserName
 import com.random.users.domain.models.UserPicture
 import com.random.users.domain.models.UserStreet
 
-object UserMother {
+internal object UserMother {
     fun createModel(
         uuid: String = "mock-uuid",
         name: UserName = createUserName(),

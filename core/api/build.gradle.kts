@@ -43,6 +43,4 @@ dependencies {
     implementation(libs.mockwebserver)
 
     ksp(libs.com.google.dagger.hilt.compiler)
-
-    testImplementation(libs.bundles.test.unit)
 }
