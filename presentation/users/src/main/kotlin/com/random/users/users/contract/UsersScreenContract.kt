@@ -15,6 +15,8 @@ internal data class UsersScreenUiState(
         data object Filtered : ContentState
 
         data object Loading : ContentState
+
+        data object Error : ContentState
     }
 }
 
