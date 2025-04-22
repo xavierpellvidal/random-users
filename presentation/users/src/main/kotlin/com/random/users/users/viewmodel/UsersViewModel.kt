@@ -11,11 +11,11 @@ import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.mapper.UsersErrorsMapper.toUiError
 import com.random.users.users.mapper.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,8 +32,8 @@ internal class UsersViewModel
                 UsersScreenUiState(),
             )
         val uiState: StateFlow<UsersScreenUiState> = _uiState
-        private val _uiEventsState = MutableSharedFlow<UsersErrorUiEventsState>()
-        val uiEventsState: SharedFlow<UsersErrorUiEventsState> = _uiEventsState.asSharedFlow()
+        private val _uiEventsState = Channel<UsersErrorUiEventsState>(capacity = Channel.CONFLATED)
+        val uiEventsState: Flow<UsersErrorUiEventsState> = _uiEventsState.receiveAsFlow()
 
         private var currentPage: Int = 0
         private var userList: List<UserUiState> = emptyList()
@@ -62,9 +62,9 @@ internal class UsersViewModel
                 getUserListUseCase(page = currentPage)
                     .fold(
                         ifLeft = { error ->
-                            _uiEventsState.emit(error.toUiError())
+                            _uiEventsState.send(error.toUiError())
                             _uiState.update { state ->
-                                state.copy(contentState = UsersScreenUiState.ContentState.Idle)
+                                state.copy(contentState = UsersScreenUiState.ContentState.Error)
                             }
                         },
                         ifRight = { newUsers ->
@@ -86,7 +86,7 @@ internal class UsersViewModel
                 deleteUserUseCase(uuid = uuid)
                     .fold(
                         ifLeft = { error ->
-                            _uiEventsState.emit(error.toUiError())
+                            _uiEventsState.send(error.toUiError())
                             userList =
                                 userList.updateUser(uuid) { user ->
                                     user.copy(userState = UserUiState.ContentState.Idle)
@@ -146,6 +146,10 @@ internal class UsersViewModel
             updateUser: (UserUiState) -> UserUiState,
         ): List<UserUiState> =
             map { user ->
-                if (user.user.uuid == uuid) updateUser(user) else user
+                if (user.user.uuid == uuid) {
+                    updateUser(user)
+                } else {
+                    user
+                }
             }
     }

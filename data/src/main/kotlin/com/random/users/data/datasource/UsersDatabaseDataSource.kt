@@ -5,7 +5,6 @@ import com.random.users.database.dao.UserDao
 import com.random.users.database.model.DeletedUserEntity
 import com.random.users.domain.models.UsersErrors
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -13,7 +12,7 @@ internal class UsersDatabaseDataSource
     @Inject
     constructor(
         private val userDao: UserDao,
-        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val dispatcher: CoroutineDispatcher,
     ) : UsersLocalDataSource {
         override suspend fun getDeletedUsers() =
             withContext(dispatcher) {

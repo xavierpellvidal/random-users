@@ -3,7 +3,7 @@ package com.random.users.users.navigation
 import com.random.users.users.model.UserUiModel
 import kotlinx.serialization.Serializable
 
-sealed class UsersRoute {
+internal sealed class UsersRoute {
     @Serializable
     data object Home : UsersRoute()
 

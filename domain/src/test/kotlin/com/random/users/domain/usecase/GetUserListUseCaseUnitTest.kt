@@ -34,7 +34,7 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "3"),
                 )
             val deletedUsers = listOf("2")
-            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
+            coEvery { usersRepository.getUsers(PAGE, RESULTS) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns deletedUsers.right()
 
             val result = getUserListUseCase(1)
@@ -46,7 +46,7 @@ class GetUserListUseCaseUnitTest {
                 ).right(),
                 result,
             )
-            coVerify { usersRepository.getUsers(1, any()) }
+            coVerify { usersRepository.getUsers(PAGE, RESULTS) }
             coVerify { usersRepository.getDeletedUsers() }
         }
 
@@ -59,20 +59,13 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "2"),
                     UserMother.createModel(uuid = "3"),
                 )
-            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
+            coEvery { usersRepository.getUsers(PAGE, RESULTS) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns emptyList<String>().right()
 
             val result = getUserListUseCase(1)
 
-            Assert.assertEquals(
-                listOf(
-                    UserMother.createModel(uuid = "1"),
-                    UserMother.createModel(uuid = "2"),
-                    UserMother.createModel(uuid = "3"),
-                ).right(),
-                result,
-            )
-            coVerify { usersRepository.getUsers(1, any()) }
+            Assert.assertEquals(users.right(), result)
+            coVerify { usersRepository.getUsers(PAGE, RESULTS) }
             coVerify { usersRepository.getDeletedUsers() }
         }
 
@@ -86,13 +79,13 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "3"),
                 )
             val deletedUsers = listOf("1", "2", "3")
-            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
+            coEvery { usersRepository.getUsers(PAGE, RESULTS) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns deletedUsers.right()
 
             val result = getUserListUseCase(1)
 
             Assert.assertEquals(emptyList<User>().right(), result)
-            coVerify { usersRepository.getUsers(1, any()) }
+            coVerify { usersRepository.getUsers(PAGE, RESULTS) }
             coVerify { usersRepository.getDeletedUsers() }
         }
 
@@ -100,12 +93,12 @@ class GetUserListUseCaseUnitTest {
     fun `GIVEN left in getUsers WHEN getUserListUseCase THEN returned left`() =
         runBlocking {
             val error = UsersErrors.NetworkError
-            coEvery { usersRepository.getUsers(1, any()) } returns error.left()
+            coEvery { usersRepository.getUsers(PAGE, RESULTS) } returns error.left()
 
-            val result = getUserListUseCase(1)
+            val result = getUserListUseCase(PAGE)
 
             Assert.assertEquals(error.left(), result)
-            coVerify { usersRepository.getUsers(any(), any()) }
+            coVerify { usersRepository.getUsers(PAGE, RESULTS) }
             coVerify(exactly = 0) { usersRepository.getDeletedUsers() }
         }
 
@@ -118,20 +111,18 @@ class GetUserListUseCaseUnitTest {
                     UserMother.createModel(uuid = "2"),
                     UserMother.createModel(uuid = "3"),
                 )
-            coEvery { usersRepository.getUsers(1, any()) } returns users.right()
+            coEvery { usersRepository.getUsers(PAGE, RESULTS) } returns users.right()
             coEvery { usersRepository.getDeletedUsers() } returns UsersErrors.UserError.left()
 
-            val result = getUserListUseCase(1)
+            val result = getUserListUseCase(PAGE)
 
-            Assert.assertEquals(
-                listOf(
-                    UserMother.createModel(uuid = "1"),
-                    UserMother.createModel(uuid = "2"),
-                    UserMother.createModel(uuid = "3"),
-                ).right(),
-                result,
-            )
-            coVerify { usersRepository.getUsers(any(), any()) }
+            Assert.assertEquals(users.right(), result)
+            coVerify { usersRepository.getUsers(PAGE, RESULTS) }
             coVerify { usersRepository.getDeletedUsers() }
         }
+
+    companion object {
+        private const val PAGE = 1
+        private const val RESULTS = 15
+    }
 }

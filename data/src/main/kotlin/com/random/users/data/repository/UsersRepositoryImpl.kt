@@ -29,11 +29,12 @@ internal class UsersRepositoryImpl
                     results = results,
                     seed = currentSeed,
                 ).map { users ->
-                    val newSeed = users.info.toDomain()
-                    if (currentSeed != users.info.seed) {
-                        seedLocalDataSource.saveSeed(newSeed)
+                    users.results.toDomain().also {
+                        val newSeed = users.info.toDomain()
+                        if (currentSeed != newSeed) {
+                            seedLocalDataSource.saveSeed(newSeed)
+                        }
                     }
-                    users.results.toDomain()
                 }
         }
 

@@ -15,6 +15,7 @@ interface UsersApi {
     ): Either<CallError, RandomUserResponse>
 
     companion object {
+        const val TIMEOUT_SECONDS = 30L
         const val BASE_URL = "https://api.randomuser.me/"
     }
 }

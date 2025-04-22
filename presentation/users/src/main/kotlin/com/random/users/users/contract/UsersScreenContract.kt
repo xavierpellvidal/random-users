@@ -15,6 +15,8 @@ internal data class UsersScreenUiState(
         data object Filtered : ContentState
 
         data object Loading : ContentState
+
+        data object Error : ContentState
     }
 }
 
@@ -43,8 +45,6 @@ internal sealed interface UsersEvent {
 }
 
 internal sealed class UsersErrorUiEventsState {
-    data object Idle : UsersErrorUiEventsState()
-
     data object DeleteError : UsersErrorUiEventsState()
 
     data object LoadUsersError : UsersErrorUiEventsState()

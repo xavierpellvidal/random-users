@@ -33,14 +33,12 @@ class UsersRepositoryUnitTest {
     @Test
     fun `GIVEN users from remote data source WHEN getUsers THEN return users successfully`() =
         runBlocking {
-            val page = 1
-            val results = 10
             val mockSeed = "mock-seed"
             val newSeed = "new-seed"
             val users = listOf(UserDtoMother.createModel())
 
             coEvery { seedLocalDataSource.getSeed() } returns mockSeed.right()
-            coEvery { usersRemoteDataSource.getUsers(page, results, mockSeed) } returns
+            coEvery { usersRemoteDataSource.getUsers(PAGE, RESULTS, mockSeed) } returns
                 RandomUsersResponseMother
                     .createModel(
                         results = users,
@@ -48,28 +46,26 @@ class UsersRepositoryUnitTest {
                     ).right()
             coEvery { seedLocalDataSource.saveSeed(newSeed) } returns Unit.right()
 
-            val result = usersRepository.getUsers(page, results)
+            val result = usersRepository.getUsers(PAGE, RESULTS)
 
             Assert.assertEquals(users.toDomain().right(), result)
             coVerify { seedLocalDataSource.getSeed() }
-            coVerify { usersRemoteDataSource.getUsers(page, results, mockSeed) }
+            coVerify { usersRemoteDataSource.getUsers(PAGE, RESULTS, mockSeed) }
             coVerify { seedLocalDataSource.saveSeed(newSeed) }
         }
 
     @Test
     fun `GIVEN error from remote data source WHEN getUsers THEN return error`() =
         runBlocking {
-            val page = 1
-            val results = 10
             val error = UsersErrors.NetworkError
             coEvery { seedLocalDataSource.getSeed() } returns null.right()
-            coEvery { usersRemoteDataSource.getUsers(page, results, null) } returns error.left()
+            coEvery { usersRemoteDataSource.getUsers(PAGE, RESULTS, null) } returns error.left()
 
-            val result = usersRepository.getUsers(page, results)
+            val result = usersRepository.getUsers(PAGE, RESULTS)
 
             Assert.assertEquals(error.left(), result)
             coVerify { seedLocalDataSource.getSeed() }
-            coVerify { usersRemoteDataSource.getUsers(page, results, null) }
+            coVerify { usersRemoteDataSource.getUsers(PAGE, RESULTS, null) }
             coVerify(exactly = 0) { seedLocalDataSource.saveSeed(any()) }
         }
 
@@ -109,4 +105,9 @@ class UsersRepositoryUnitTest {
             Assert.assertEquals(Unit.right(), result)
             coVerify { usersLocalDataSource.deleteUser(uuid) }
         }
+
+    companion object {
+        private const val PAGE = 1
+        private const val RESULTS = 15
+    }
 }

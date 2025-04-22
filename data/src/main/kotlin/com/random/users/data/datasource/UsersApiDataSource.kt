@@ -3,7 +3,6 @@ package com.random.users.data.datasource
 import com.random.users.api.api.UsersApi
 import com.random.users.domain.models.UsersErrors
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -11,7 +10,7 @@ internal class UsersApiDataSource
     @Inject
     constructor(
         private val usersApi: UsersApi,
-        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val dispatcher: CoroutineDispatcher,
     ) : UsersRemoteDataSource {
         override suspend fun getUsers(
             page: Int,
@@ -23,6 +22,8 @@ internal class UsersApiDataSource
                     page = page,
                     results = results,
                     seed = seed,
-                ).mapLeft { UsersErrors.NetworkError }
+                ).mapLeft {
+                    UsersErrors.NetworkError
+                }
         }
     }
