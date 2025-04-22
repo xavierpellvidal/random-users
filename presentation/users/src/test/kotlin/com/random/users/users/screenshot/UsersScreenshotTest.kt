@@ -16,7 +16,6 @@ import com.random.users.test.rules.createRoborazziRule
 import com.random.users.test.rules.createScreenshotTestComposeRule
 import com.random.users.users.screen.UsersScreen
 import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,14 +36,13 @@ import org.robolectric.annotation.GraphicsMode
 import javax.inject.Inject
 import kotlin.test.Test
 
-@HiltAndroidTest
 @ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(
     qualifiers = RobolectricDeviceQualifiers.Pixel4a,
     application = HiltTestApplication::class,
-    sdk = [28]
+    sdk = [28],
 )
 internal class UsersScreenshotTest {
     @get:Rule(order = 0)
