@@ -33,10 +33,6 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.random.user.presentation.ui.theme.RandomUsersTheme
 import com.random.users.users.contract.UserUiState
-import com.random.users.users.model.UserLocationUiModel
-import com.random.users.users.model.UserNameUiModel
-import com.random.users.users.model.UserPictureUiModel
-import com.random.users.users.model.UserStreetUiModel
 import com.random.users.users.model.UserUiModel
 
 @Composable
@@ -120,39 +116,28 @@ internal fun UserCard(
 
 @PreviewLightDark
 @Composable
-private fun UserCardPreview() {
+private fun UserCardIdlePreview() {
     RandomUsersTheme {
         UserCard(
             user =
                 UserUiState(
-                    user =
-                        UserUiModel(
-                            uuid = "550e8400-e29b-41d4-a716-446655440000",
-                            name =
-                                UserNameUiModel(
-                                    first = "María",
-                                    last = "García",
-                                ),
-                            location =
-                                UserLocationUiModel(
-                                    street =
-                                        UserStreetUiModel(
-                                            number = 123,
-                                            name = "Calle Mayor",
-                                        ),
-                                    city = "Madrid",
-                                    state = "Madrid",
-                                ),
-                            email = "maria.garcia@example.com",
-                            phone = "+34 612 345 678",
-                            gender = "female",
-                            picture =
-                                UserPictureUiModel(
-                                    medium = "https://randomuser.me/api/portraits/women/42.jpg",
-                                    thumbnail = "https://randomuser.me/api/portraits/thumb/women/42.jpg",
-                                ),
-                        ),
+                    user = UserUiModel.toPreviewData(),
                     userState = UserUiState.ContentState.Idle,
+                ),
+            onDeleteUser = {},
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun UserCardDeletingPreview() {
+    RandomUsersTheme {
+        UserCard(
+            user =
+                UserUiState(
+                    user = UserUiModel.toPreviewData(),
+                    userState = UserUiState.ContentState.Deleting,
                 ),
             onDeleteUser = {},
         )

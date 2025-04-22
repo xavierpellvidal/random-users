@@ -64,7 +64,7 @@ internal class UsersViewModel
                         ifLeft = { error ->
                             _uiEventsState.emit(error.toUiError())
                             _uiState.update { state ->
-                                state.copy(contentState = UsersScreenUiState.ContentState.Idle)
+                                state.copy(contentState = UsersScreenUiState.ContentState.Error)
                             }
                         },
                         ifRight = { newUsers ->
