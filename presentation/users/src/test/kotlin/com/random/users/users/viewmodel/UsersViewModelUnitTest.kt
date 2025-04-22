@@ -8,15 +8,20 @@ import com.random.users.domain.usecase.GetUserListUseCase
 import com.random.users.test.rules.MainDispatcherRule
 import com.random.users.users.contract.UsersErrorUiEventsState
 import com.random.users.users.contract.UsersEvent
+import com.random.users.users.contract.UsersScreenUiState
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import kotlin.getValue
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class UsersViewModelUnitTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -32,14 +37,21 @@ internal class UsersViewModelUnitTest {
         runTest {
             coEvery { deleteUserUseCase("1") } returns UsersErrors.UserError.left()
 
+            viewModel.handleEvent(UsersEvent.OnDeleteUser("1"))
+            runCurrent()
+
+            viewModel.uiState.test {
+                assertTrue(awaitItem().contentState is UsersScreenUiState.ContentState.Idle)
+                expectNoEvents()
+            }
+
             viewModel.uiEventsState.test {
-                viewModel.handleEvent(UsersEvent.OnDeleteUser("1"))
                 assertEquals(UsersErrorUiEventsState.DeleteError, awaitItem())
                 expectNoEvents()
             }
 
             coVerify {
-                deleteUserUseCase(any())
+                deleteUserUseCase("1")
             }
         }
 }
