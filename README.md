@@ -58,7 +58,9 @@ app/
 - Expand test coverage across the application
 - Integration tests from compose to data layer
 - Compose navigation tests
-- Github Actions for CI/CD
+- Kover for coverage reports
+- Konsists for code quality
+- Ktlint for code style
 
 
 ## 🔧 Getting Started
