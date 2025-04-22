@@ -5,13 +5,22 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -21,6 +30,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.random.user.presentation.ui.theme.RandomUsersTheme
@@ -89,10 +99,20 @@ internal fun UserList(
                 onDeleteUser = { uuid -> onDeleteUser(uuid) },
             )
         }
-        if (state.contentState is UsersScreenUiState.ContentState.Loading) {
-            item(key = "loading") {
-                LoadingItem()
+        when (state.contentState) {
+            is UsersScreenUiState.ContentState.Loading -> {
+                item(key = "loading") {
+                    LoadingItem()
+                }
             }
+            is UsersScreenUiState.ContentState.Error -> {
+                item(key = "retry") {
+                    RetryItem(
+                        onRetry = onLoadUsers,
+                    )
+                }
+            }
+            else -> {}
         }
     }
 }
@@ -106,6 +126,39 @@ private fun LoadingItem(modifier: Modifier = Modifier) {
         CircularProgressIndicator(
             strokeWidth = 2.dp,
         )
+    }
+}
+
+@Composable
+private fun RetryItem(
+    modifier: Modifier = Modifier,
+    onRetry: () -> Unit = {},
+) {
+    Box(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Button(
+            onClick = onRetry,
+            shape = RoundedCornerShape(8.dp),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = null,
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Retry",
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+        }
     }
 }
 
@@ -186,7 +239,7 @@ fun UserListPreview() {
                             ),
                         ),
                     filterText = "",
-                    contentState = UsersScreenUiState.ContentState.Loading,
+                    contentState = UsersScreenUiState.ContentState.Error,
                 ),
             onDeleteUser = {},
             onLoadUsers = {},
