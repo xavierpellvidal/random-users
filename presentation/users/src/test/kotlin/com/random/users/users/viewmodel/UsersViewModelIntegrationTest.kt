@@ -6,8 +6,8 @@ import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
 import com.random.users.test.model.getUserListResponsePage1Json
 import com.random.users.test.rules.MainDispatcherRule
-import com.random.users.users.contract.UsersErrorUiEventsState
-import com.random.users.users.contract.UsersEvent
+import com.random.users.users.contract.UsersErrorUiState
+import com.random.users.users.contract.UsersUiEvent
 import com.random.users.users.contract.UsersScreenUiState
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -26,7 +26,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import javax.inject.Inject
-import kotlin.getValue
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -76,7 +75,7 @@ internal class UsersViewModelIntegrationTest {
             initViewModel()
             mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(getUserListResponsePage1Json))
 
-            viewModel.handleEvent(UsersEvent.OnLoadUsers)
+            viewModel.handleEvent(UsersUiEvent.OnLoadUsers)
             runCurrent()
 
             viewModel.uiState.test {
@@ -87,6 +86,10 @@ internal class UsersViewModelIntegrationTest {
                 assertTrue(finalState.users.isNotEmpty())
                 expectNoEvents()
             }
+
+            mockWebServer.takeRequest().requestUrl?.let {
+                assertEquals("0", it.queryParameter("page"))
+            }
         }
 
     @Test
@@ -95,7 +98,7 @@ internal class UsersViewModelIntegrationTest {
             initViewModel()
             mockWebServer.enqueue(MockResponse().setResponseCode(500))
 
-            viewModel.handleEvent(UsersEvent.OnLoadUsers)
+            viewModel.handleEvent(UsersUiEvent.OnLoadUsers)
             runCurrent()
 
             viewModel.uiState.test {
@@ -107,7 +110,7 @@ internal class UsersViewModelIntegrationTest {
             }
 
             viewModel.uiEventsState.test {
-                assertEquals(UsersErrorUiEventsState.LoadUsersError, awaitItem())
+                assertEquals(UsersErrorUiState.LoadUsersError, awaitItem())
                 expectNoEvents()
             }
         }
@@ -118,12 +121,12 @@ internal class UsersViewModelIntegrationTest {
             initViewModel()
             mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(getUserListResponsePage1Json))
 
-            viewModel.handleEvent(UsersEvent.OnLoadUsers)
+            viewModel.handleEvent(UsersUiEvent.OnLoadUsers)
             runCurrent()
 
             viewModel.uiState.test {
                 skipItems(2)
-                viewModel.handleEvent(UsersEvent.OnFilterUsers("Jos"))
+                viewModel.handleEvent(UsersUiEvent.OnFilterUsers("Jos"))
                 runCurrent()
 
                 val newState = awaitItem()
@@ -140,7 +143,7 @@ internal class UsersViewModelIntegrationTest {
             initViewModel()
             mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(getUserListResponsePage1Json))
 
-            viewModel.handleEvent(UsersEvent.OnFilterUsers(""))
+            viewModel.handleEvent(UsersUiEvent.OnFilterUsers(""))
             runCurrent()
 
             viewModel.uiState.test {
