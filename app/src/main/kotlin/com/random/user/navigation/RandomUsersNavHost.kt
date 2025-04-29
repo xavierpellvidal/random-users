@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.navigation
 import com.random.user.navigation.viewmodel.NavigationViewModel
 import com.random.user.presentation.navigation.BaseNavRoutes
-import com.random.user.presentation.ui.theme.RandomUsersTheme
 
 @Composable
 fun BaseProjectApplicationNavHost(
