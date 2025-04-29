@@ -1,7 +1,6 @@
 
 package com.random.users.users.screenshot
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.compose.ui.test.onRoot
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -31,9 +30,6 @@ import kotlin.test.Test
     sdk = [34],
 )
 internal class UserDetailScreenshotTest {
-    @get:Rule
-    val instantRule = InstantTaskExecutorRule()
-
     @get:Rule
     val composeTestRule = createScreenshotTestComposeRule()
 
