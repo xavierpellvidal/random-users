@@ -13,14 +13,14 @@ import com.random.users.api.model.StreetDto
 import com.random.users.api.model.TimezoneDto
 import com.random.users.api.model.UserDto
 
-object RandomUsersResponseMother {
+internal object RandomUsersResponseMother {
     fun createModel(
         results: List<UserDto> = listOf(UserDtoMother.createModel()),
         info: ResponseInfoDto = ResponseInfoDtoMother.createModel(),
     ): RandomUserResponse = RandomUserResponse(results, info)
 }
 
-object ResponseInfoDtoMother {
+internal object ResponseInfoDtoMother {
     fun createModel(
         seed: String = "default-seed",
         results: Int = 10,
@@ -35,7 +35,7 @@ object ResponseInfoDtoMother {
         )
 }
 
-object UserDtoMother {
+internal object UserDtoMother {
     fun createModel(
         gender: String = "male",
         name: NameDto = NameDtoMother.createModel(),
@@ -66,7 +66,7 @@ object UserDtoMother {
         )
 }
 
-object NameDtoMother {
+private object NameDtoMother {
     fun createModel(
         title: String = "Mr",
         first: String = "John",
@@ -74,7 +74,7 @@ object NameDtoMother {
     ): NameDto = NameDto(title, first, last)
 }
 
-object LocationDtoMother {
+private object LocationDtoMother {
     fun createModel(
         street: StreetDto = StreetDtoMother.createModel(),
         city: String = "New York",
@@ -86,28 +86,28 @@ object LocationDtoMother {
     ): LocationDto = LocationDto(street, city, state, country, postcode, coordinates, timezone)
 }
 
-object StreetDtoMother {
+private object StreetDtoMother {
     fun createModel(
         number: Int = 123,
         name: String = "Main Street",
     ): StreetDto = StreetDto(number, name)
 }
 
-object CoordinatesDtoMother {
+private object CoordinatesDtoMother {
     fun createModel(
         latitude: String = "40.7128",
         longitude: String = "-74.0060",
     ): CoordinatesDto = CoordinatesDto(latitude, longitude)
 }
 
-object TimezoneDtoMother {
+private object TimezoneDtoMother {
     fun createModel(
         offset: String = "-05:00",
         description: String = "Eastern Time (US & Canada)",
     ): TimezoneDto = TimezoneDto(offset, description)
 }
 
-object LoginDtoMother {
+private object LoginDtoMother {
     fun createModel(
         uuid: String = "mock-uuid",
         username: String = "johndoe",
@@ -119,21 +119,21 @@ object LoginDtoMother {
     ): LoginDto = LoginDto(uuid, username, password, salt, md5, sha1, sha256)
 }
 
-object DateInfoDtoMother {
+private object DateInfoDtoMother {
     fun createModel(
         date: String = "2000-01-01T00:00:00Z",
         age: Int = 21,
     ): DateInfoDto = DateInfoDto(date, age)
 }
 
-object IdDtoMother {
+private object IdDtoMother {
     fun createModel(
         name: String = "SSN",
         value: String = "123-45-6789",
     ): IdDto = IdDto(name, value)
 }
 
-object PictureDtoMother {
+private object PictureDtoMother {
     fun createModel(
         large: String = "https://example.com/large.jpg",
         medium: String = "https://example.com/medium.jpg",
