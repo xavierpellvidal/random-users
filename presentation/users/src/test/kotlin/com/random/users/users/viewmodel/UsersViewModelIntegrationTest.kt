@@ -93,6 +93,28 @@ internal class UsersViewModelIntegrationTest {
         }
 
     @Test
+    fun `GIVEN getUsersListUseCase returns users WHEN delete user THEN receives users without deleted one`() =
+        runTest {
+            initViewModel()
+            mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(getUserListResponsePage1Json))
+
+            viewModel.handleEvent(UsersUiEvent.OnDeleteUser("1"))
+            runCurrent()
+            viewModel.handleEvent(UsersUiEvent.OnLoadUsers)
+            runCurrent()
+
+            viewModel.uiState.test {
+                val initialState = awaitItem()
+                val finalState = awaitItem()
+                assertTrue(initialState.contentState is UsersScreenUiState.ContentState.Loading)
+                assertTrue(finalState.contentState is UsersScreenUiState.ContentState.Idle)
+                assertTrue(finalState.users.isNotEmpty())
+                assertTrue(finalState.users.find { it.user.uuid == "1" } == null)
+                expectNoEvents()
+            }
+        }
+
+    @Test
     fun `GIVEN getUsersListUseCase returns error WHEN load users event THEN receives Error state`() =
         runTest {
             initViewModel()
