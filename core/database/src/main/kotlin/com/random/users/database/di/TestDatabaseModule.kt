@@ -23,7 +23,6 @@ object TestDatabaseModule {
         @ApplicationContext appContext: Context,
     ) = Room
         .inMemoryDatabaseBuilder(appContext, RandomUsersDatabase::class.java)
-        .allowMainThreadQueries()
         .build()
 
     @Provides
