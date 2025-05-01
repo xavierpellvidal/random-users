@@ -24,8 +24,8 @@ import com.random.user.presentation.ui.theme.RandomUsersTheme
 import com.random.users.users.composable.UserList
 import com.random.users.users.composable.UserSearchView
 import com.random.users.users.contract.UserUiState
-import com.random.users.users.contract.UsersErrorUiEventsState
-import com.random.users.users.contract.UsersEvent
+import com.random.users.users.contract.UsersErrorUiState
+import com.random.users.users.contract.UsersUiEvent
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.model.UserUiModel
 import com.random.users.users.navigation.UsersRoute
@@ -45,9 +45,9 @@ internal fun UsersScreen(
         UsersContent(
             modifier = Modifier.padding(innerPadding),
             state = state,
-            onDeleteUser = { viewModel.handleEvent(UsersEvent.OnDeleteUser(uuid = it)) },
-            onLoadUsers = { viewModel.handleEvent(UsersEvent.OnLoadUsers) },
-            onFilterUsers = { viewModel.handleEvent(UsersEvent.OnFilterUsers(filterText = it)) },
+            onDeleteUser = { viewModel.handleEvent(UsersUiEvent.OnDeleteUser(uuid = it)) },
+            onLoadUsers = { viewModel.handleEvent(UsersUiEvent.OnLoadUsers) },
+            onFilterUsers = { viewModel.handleEvent(UsersUiEvent.OnFilterUsers(filterText = it)) },
             onUserClick = { navController.navigate(UsersRoute.UserDetail(user = it)) },
         )
     }
@@ -81,7 +81,7 @@ private fun UsersContent(
 }
 
 @Composable
-private fun HandleOneTimeEvents(uiEventsState: Flow<UsersErrorUiEventsState>) {
+private fun HandleOneTimeEvents(uiEventsState: Flow<UsersErrorUiState>) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val context = LocalContext.current
     LaunchedEffect(uiEventsState) {
@@ -94,15 +94,15 @@ private fun HandleOneTimeEvents(uiEventsState: Flow<UsersErrorUiEventsState>) {
 }
 
 private fun showError(
-    state: UsersErrorUiEventsState,
+    state: UsersErrorUiState,
     context: Context,
 ) {
     when (state) {
-        is UsersErrorUiEventsState.DeleteError -> {
+        is UsersErrorUiState.DeleteError -> {
             Toast.makeText(context, "Error deleting user", Toast.LENGTH_SHORT).show()
         }
 
-        is UsersErrorUiEventsState.LoadUsersError -> {
+        is UsersErrorUiState.LoadUsersError -> {
             Toast.makeText(context, "Error loading users", Toast.LENGTH_SHORT).show()
         }
 

@@ -32,22 +32,22 @@ internal data class UserUiState(
     }
 }
 
-internal sealed interface UsersEvent {
-    data object OnLoadUsers : UsersEvent
+internal sealed interface UsersUiEvent {
+    data object OnLoadUsers : UsersUiEvent
 
     data class OnFilterUsers(
         val filterText: String,
-    ) : UsersEvent
+    ) : UsersUiEvent
 
     data class OnDeleteUser(
         val uuid: String,
-    ) : UsersEvent
+    ) : UsersUiEvent
 }
 
-internal sealed class UsersErrorUiEventsState {
-    data object DeleteError : UsersErrorUiEventsState()
+internal sealed interface UsersErrorUiState {
+    data object DeleteError : UsersErrorUiState
 
-    data object LoadUsersError : UsersErrorUiEventsState()
+    data object LoadUsersError : UsersErrorUiState
 
-    data object UnknownError : UsersErrorUiEventsState()
+    data object UnknownError : UsersErrorUiState
 }

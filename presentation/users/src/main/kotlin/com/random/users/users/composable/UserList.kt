@@ -37,6 +37,7 @@ import com.random.user.presentation.ui.theme.RandomUsersTheme
 import com.random.users.users.contract.UserUiState
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.model.UserUiModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 
@@ -61,7 +62,7 @@ internal fun UserList(
         snapshotFlow { reachedBottom }
             .distinctUntilChanged()
             .filter { it && state.contentState is UsersScreenUiState.ContentState.Idle }
-            .collect { onLoadUsers() }
+            .collectLatest { onLoadUsers() }
     }
 
     LaunchedEffect(
