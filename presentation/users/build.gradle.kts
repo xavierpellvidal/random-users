@@ -61,8 +61,8 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":domain"))
 
-    testImplementation(project(":core:test"))
     testImplementation(project(":data"))
+    testImplementation(testFixtures(project(":core:api")))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)
 }
