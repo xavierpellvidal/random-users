@@ -14,7 +14,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class GetUserListUseCaseUnitTest {
+internal class GetUserListUseCaseUnitTest {
     private lateinit var usersRepository: UsersRepository
     private lateinit var getUserListUseCase: GetUserListUseCase
 

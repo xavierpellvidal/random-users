@@ -1,14 +1,14 @@
-package com.random.users.api.di
+package com.random.users.users.di
 
 import arrow.retrofit.adapter.either.EitherCallAdapterFactory
 import com.random.users.api.api.UsersApi
+import com.random.users.api.di.ApiModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -36,21 +36,12 @@ object TestApiModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        mockWebServer: MockWebServer,
-    ): Retrofit {
-        mockWebServer.start()
-        return Retrofit
+    fun provideRetrofit(okHttpClient: OkHttpClient) =
+        Retrofit
             .Builder()
-            .baseUrl(mockWebServer.url("/"))
+            .baseUrl("http://localhost:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(EitherCallAdapterFactory.create())
             .client(okHttpClient)
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideMockWebServer(): MockWebServer = MockWebServer()
 }

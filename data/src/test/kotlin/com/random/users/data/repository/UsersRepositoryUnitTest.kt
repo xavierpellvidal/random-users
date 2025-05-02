@@ -19,7 +19,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class UsersRepositoryUnitTest {
+internal class UsersRepositoryUnitTest {
     private lateinit var usersRepository: UsersRepository
     private val usersLocalDataSource: UsersLocalDataSource = mockk()
     private val usersRemoteDataSource: UsersRemoteDataSource = mockk()

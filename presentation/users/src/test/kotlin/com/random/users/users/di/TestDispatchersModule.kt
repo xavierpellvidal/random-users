@@ -1,5 +1,6 @@
-package com.random.users.data.di
+package com.random.users.users.di
 
+import com.random.users.data.di.DispatchersModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent

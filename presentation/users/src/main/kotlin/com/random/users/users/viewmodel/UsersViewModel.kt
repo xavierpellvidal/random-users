@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
 import com.random.users.users.contract.UserUiState
-import com.random.users.users.contract.UsersErrorUiEventsState
-import com.random.users.users.contract.UsersEvent
+import com.random.users.users.contract.UsersErrorUiState
+import com.random.users.users.contract.UsersUiEvent
 import com.random.users.users.contract.UsersScreenUiState
 import com.random.users.users.mapper.UsersErrorsMapper.toUiError
 import com.random.users.users.mapper.toUiState
@@ -32,23 +32,23 @@ internal class UsersViewModel
                 UsersScreenUiState(),
             )
         val uiState: StateFlow<UsersScreenUiState> = _uiState
-        private val _uiEventsState = Channel<UsersErrorUiEventsState>(capacity = Channel.CONFLATED)
-        val uiEventsState: Flow<UsersErrorUiEventsState> = _uiEventsState.receiveAsFlow()
+        private val _uiEventsState = Channel<UsersErrorUiState>(capacity = Channel.CONFLATED)
+        val uiEventsState: Flow<UsersErrorUiState> = _uiEventsState.receiveAsFlow()
 
         private var currentPage: Int = 0
         private var userList: List<UserUiState> = emptyList()
 
-        fun handleEvent(event: UsersEvent) {
+        fun handleEvent(event: UsersUiEvent) {
             when (event) {
-                is UsersEvent.OnLoadUsers -> {
+                is UsersUiEvent.OnLoadUsers -> {
                     loadUsers()
                 }
 
-                is UsersEvent.OnDeleteUser -> {
+                is UsersUiEvent.OnDeleteUser -> {
                     deleteUser(uuid = event.uuid)
                 }
 
-                is UsersEvent.OnFilterUsers -> {
+                is UsersUiEvent.OnFilterUsers -> {
                     filterUsers(event.filterText)
                 }
             }

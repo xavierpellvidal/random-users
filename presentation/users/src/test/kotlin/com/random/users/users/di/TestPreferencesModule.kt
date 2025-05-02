@@ -1,7 +1,8 @@
-package com.random.users.preferences.di
+package com.random.users.users.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.random.users.preferences.di.PreferencesModule
 import com.random.users.preferences.manager.PreferencesManager
 import dagger.Module
 import dagger.Provides
