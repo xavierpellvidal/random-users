@@ -31,9 +31,7 @@ internal fun UserSearchView(
 ) {
     val searchState = rememberSaveable { mutableStateOf(search) }
 
-    LaunchedEffect(
-        searchState.value,
-    ) {
+    LaunchedEffect(Unit) {
         snapshotFlow { searchState.value }
             .distinctUntilChanged()
             .debounce(200)
