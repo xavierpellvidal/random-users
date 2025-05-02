@@ -56,7 +56,6 @@ internal fun UserList(
     }
 
     LaunchedEffect(
-        reachedBottom,
         state.contentState,
     ) {
         snapshotFlow { reachedBottom }
