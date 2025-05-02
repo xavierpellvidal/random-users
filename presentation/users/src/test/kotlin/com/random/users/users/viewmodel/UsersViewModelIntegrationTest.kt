@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
-import com.random.users.test.model.getUserListResponsePage1Json
-import com.random.users.test.rules.MainDispatcherRule
+import com.random.users.users.model.getUserListResponsePage1Json
+import com.random.users.users.rules.MainDispatcherRule
 import com.random.users.users.contract.UsersErrorUiState
 import com.random.users.users.contract.UsersUiEvent
 import com.random.users.users.contract.UsersScreenUiState
@@ -50,13 +50,13 @@ internal class UsersViewModelIntegrationTest {
     @Inject
     lateinit var deleteUserUseCase: DeleteUserUseCase
 
-    @Inject
     lateinit var mockWebServer: MockWebServer
-
     lateinit var viewModel: UsersViewModel
 
     @Before
     fun setup() {
+        mockWebServer = MockWebServer()
+        mockWebServer.start(8080)
         hiltRule.inject()
     }
 

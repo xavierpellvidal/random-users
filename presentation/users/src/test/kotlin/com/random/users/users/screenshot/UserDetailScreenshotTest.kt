@@ -7,9 +7,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.random.users.test.rules.MainDispatcherRule
-import com.random.users.test.rules.createRoborazziRule
-import com.random.users.test.rules.createScreenshotTestComposeRule
+import com.random.users.users.rules.MainDispatcherRule
+import com.random.users.users.rules.createRoborazziRule
+import com.random.users.users.rules.createScreenshotTestComposeRule
 import com.random.users.users.mapper.toUiModel
 import com.random.users.users.mother.UserMother
 import com.random.users.users.screen.UserDetailScreen

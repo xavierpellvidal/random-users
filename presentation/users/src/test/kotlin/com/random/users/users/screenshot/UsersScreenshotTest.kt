@@ -15,9 +15,9 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
-import com.random.users.test.rules.MainDispatcherRule
-import com.random.users.test.rules.createRoborazziRule
-import com.random.users.test.rules.createScreenshotTestComposeRule
+import com.random.users.users.rules.MainDispatcherRule
+import com.random.users.users.rules.createRoborazziRule
+import com.random.users.users.rules.createScreenshotTestComposeRule
 import com.random.users.users.mother.UserMother
 import com.random.users.users.screen.UsersScreen
 import com.random.users.users.viewmodel.UsersViewModel

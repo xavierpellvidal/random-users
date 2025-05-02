@@ -5,7 +5,7 @@ import arrow.core.left
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
-import com.random.users.test.rules.MainDispatcherRule
+import com.random.users.users.rules.MainDispatcherRule
 import com.random.users.users.contract.UsersErrorUiState
 import com.random.users.users.contract.UsersUiEvent
 import com.random.users.users.contract.UsersScreenUiState
