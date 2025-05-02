@@ -36,9 +36,6 @@ dependencies {
     implementation(libs.bundles.layer.data)
     implementation(libs.arrow.core.retrofit)
 
-    implementation(libs.hilt.testing)
-    implementation(libs.test.corutines)
-
     ksp(libs.com.google.dagger.hilt.compiler)
 
     implementation(project(":domain"))

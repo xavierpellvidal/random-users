@@ -1,9 +1,10 @@
-package com.random.users.database.di
+package com.random.users.users.di
 
 import android.content.Context
 import androidx.room.Room
 import com.random.users.database.RandomUsersDatabase
 import com.random.users.database.dao.UserDao
+import com.random.users.database.di.DatabaseModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext

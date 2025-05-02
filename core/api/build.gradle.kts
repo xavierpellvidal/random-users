@@ -30,9 +30,6 @@ android {
     kotlinOptions {
         jvmTarget = AppVersions.JVM_TARGET
     }
-    testFixtures {
-        enable = true
-    }
 }
 
 dependencies {
@@ -44,12 +41,4 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
 
     ksp(libs.com.google.dagger.hilt.compiler)
-
-    kspTestFixtures(libs.com.google.dagger.hilt.compiler)
-    testFixturesImplementation(libs.hilt.testing)
-    testFixturesImplementation(libs.arrow.core.retrofit)
-    testFixturesImplementation(libs.retrofit)
-    testFixturesImplementation(libs.retrofit.gson)
-    testFixturesImplementation(libs.okhttp)
-    testFixturesImplementation(libs.okhttp.logging.interceptor)
 }
