@@ -1,4 +1,4 @@
-package com.random.users.test.rules
+package com.random.users.users.rules
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule

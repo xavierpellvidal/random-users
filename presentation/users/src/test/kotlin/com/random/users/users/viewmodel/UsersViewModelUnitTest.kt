@@ -5,9 +5,9 @@ import arrow.core.left
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
-import com.random.users.test.rules.MainDispatcherRule
-import com.random.users.users.contract.UsersErrorUiEventsState
-import com.random.users.users.contract.UsersEvent
+import com.random.users.users.rules.MainDispatcherRule
+import com.random.users.users.contract.UsersErrorUiState
+import com.random.users.users.contract.UsersUiEvent
 import com.random.users.users.contract.UsersScreenUiState
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,7 +37,7 @@ internal class UsersViewModelUnitTest {
         runTest {
             coEvery { deleteUserUseCase("1") } returns UsersErrors.UserError.left()
 
-            viewModel.handleEvent(UsersEvent.OnDeleteUser("1"))
+            viewModel.handleEvent(UsersUiEvent.OnDeleteUser("1"))
             runCurrent()
 
             viewModel.uiState.test {
@@ -46,7 +46,7 @@ internal class UsersViewModelUnitTest {
             }
 
             viewModel.uiEventsState.test {
-                assertEquals(UsersErrorUiEventsState.DeleteError, awaitItem())
+                assertEquals(UsersErrorUiState.DeleteError, awaitItem())
                 expectNoEvents()
             }
 

@@ -1,7 +1,6 @@
 
 package com.random.users.users.screenshot
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
@@ -16,9 +15,9 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import com.random.users.domain.models.UsersErrors
 import com.random.users.domain.usecase.DeleteUserUseCase
 import com.random.users.domain.usecase.GetUserListUseCase
-import com.random.users.test.rules.MainDispatcherRule
-import com.random.users.test.rules.createRoborazziRule
-import com.random.users.test.rules.createScreenshotTestComposeRule
+import com.random.users.users.rules.MainDispatcherRule
+import com.random.users.users.rules.createRoborazziRule
+import com.random.users.users.rules.createScreenshotTestComposeRule
 import com.random.users.users.mother.UserMother
 import com.random.users.users.screen.UsersScreen
 import com.random.users.users.viewmodel.UsersViewModel
@@ -43,16 +42,13 @@ import kotlin.test.Test
     sdk = [34],
 )
 internal class UsersScreenshotTest {
-    @get:Rule(order = 1)
-    var instantRule: TestRule = InstantTaskExecutorRule()
-
-    @get:Rule(order = 2)
+    @get:Rule(order = 0)
     var mainRule: TestRule = MainDispatcherRule()
 
-    @get:Rule(order = 3)
+    @get:Rule(order = 1)
     val composeTestRule = createScreenshotTestComposeRule()
 
-    @get:Rule(order = 4)
+    @get:Rule(order = 2)
     val roborazziRule =
         createRoborazziRule(composeTestRule = composeTestRule, captureType = RoborazziRule.CaptureType.None)
 

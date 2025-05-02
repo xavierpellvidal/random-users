@@ -26,23 +26,23 @@ internal object UserMother {
             picture = picture,
         )
 
-    fun createUserName(
+    private fun createUserName(
         first: String = "John",
         last: String = "Doe",
     ): UserName = UserName(first, last)
 
-    fun createUserLocation(
+    private fun createUserLocation(
         street: UserStreet = createUserStreet(),
         city: String = "Madrid",
         state: String = "Madrid",
     ): UserLocation = UserLocation(street, city, state)
 
-    fun createUserStreet(
+    private fun createUserStreet(
         number: Int = 123,
         name: String = "Calle Mayor",
     ): UserStreet = UserStreet(number, name)
 
-    fun createUserPicture(
+    private fun createUserPicture(
         medium: String = "https://example.com/medium.jpg",
         thumbnail: String = "https://example.com/thumbnail.jpg",
     ): UserPicture = UserPicture(medium, thumbnail)

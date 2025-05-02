@@ -1,4 +1,4 @@
-package com.random.users.test.rules
+package com.random.users.users.rules
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

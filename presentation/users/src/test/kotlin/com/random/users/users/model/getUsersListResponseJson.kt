@@ -1,4 +1,4 @@
-package com.random.users.test.model
+package com.random.users.users.model
 
 val getUserListResponsePage1Json =
     """

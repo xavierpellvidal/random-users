@@ -61,8 +61,17 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":domain"))
 
-    testImplementation(project(":core:test"))
+    kspTest(libs.com.google.dagger.hilt.compiler)
     testImplementation(project(":data"))
+    testImplementation(project(":core:preferences"))
+    testImplementation(project(":core:database"))
+    testImplementation(project(":core:api"))
+    testImplementation(libs.arrow.core.retrofit)
+    testImplementation(libs.retrofit)
+    testImplementation(libs.retrofit.gson)
+    testImplementation(libs.okhttp)
+    testImplementation(libs.okhttp.logging.interceptor)
+    testImplementation(libs.room.testing)
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.bundles.test.compose)
 }
